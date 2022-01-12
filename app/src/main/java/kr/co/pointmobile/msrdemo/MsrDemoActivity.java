@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.provider.Settings;
@@ -19,22 +20,20 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Arrays;
-import java.util.List;
 
+import kr.co.pointmobile.msrdemo.models.CardAuthResult;
 import kr.co.pointmobile.msrdemo.models.Post;
-import kr.co.pointmobile.msrdemo.models.PostList;
 import kr.co.pointmobile.msrdemo.retrofit.RetrofitFactory;
 import kr.co.pointmobile.msrdemo.retrofit.RetrofitService;
 import kr.co.pointmobile.msrdemo.utils.PmUtils;
@@ -45,9 +44,9 @@ import vpos.apipackage.Icc;
 import vpos.apipackage.Mcr;
 import vpos.messenger.MessengerClient;
 
+import static android.os.Build.getSerial;
 import static vpos.apipackage.Icc.Lib_IccClose;
 import static vpos.apipackage.Mcr.Lib_McrClose;
-import static vpos.apipackage.Mcr.Lib_McrOpen;
 import static vpos.apipackage.Mcr.Lib_McrRead;
 import static vpos.emvkernel.EmvKernel.EmvLib_GetTLV;
 
@@ -64,7 +63,7 @@ public class MsrDemoActivity extends AppCompatActivity
     public String mTrack2View; //채번된 카드번호
     public String card_no;
     public String expire_date; // 유효기간
-    public String serial; //단말기번호
+    public static String serial = android.os.Build.SERIAL;
     public String install_period; //할부
     public String tot_amt; //금액
 
@@ -483,6 +482,7 @@ public class MsrDemoActivity extends AppCompatActivity
     {
         runOnUiThread(new Runnable()
         {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void run()
             {
@@ -586,15 +586,19 @@ public class MsrDemoActivity extends AppCompatActivity
                 }
 
 
-                // TODO: 팝업
+                // 팝업
                 // 1. 단말기번호, 카드번호, 유효기간, 할부, 금액 값 가져와서 세팅하기
-                serial = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+                //serial = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+
 //                EditText get_expire_date = (EditText)findViewById(R.id.expire_date);
                 Spinner get_install_period = (Spinner)findViewById(R.id.install_period_spinner);
                 EditText get_tot_amt = (EditText)findViewById(R.id.tot_amt);
 
 //                String expire_date = get_expire_date.getText().toString(); //유효기간
                 install_period = get_install_period.getSelectedItem().toString(); //할부
+                if(install_period.equals("일시불")){
+                    install_period = "00";
+                }
                 tot_amt = get_tot_amt.getText().toString();//금액
 
                 String valuesMessage = String.format("단말기번호: %s\n카드번호: %s\n유효기간: %s(YYMM)\n할부: %s (개월)\n금액: %s (원)",serial,card_no,expire_date,install_period,tot_amt);
@@ -608,25 +612,70 @@ public class MsrDemoActivity extends AppCompatActivity
                         // 0. 카드 긁기 대기 창띄우기 + 카드 긁을때까지 대기(취소버튼있음)
                         // 0.5 . 카드를 긁으면! 아래 실행
                         // 1. 단말기번호, 카드번호, 유효기간, 할부, 금액 값 가져오기
-                        // TODO: 2. http 요청하기
+                        // 2. http 요청하기
                         RetrofitService networkService = RetrofitFactory.create();
-                        networkService.getList("1").enqueue(new Callback<Post>() {
+                        networkService.authCard(serial,card_no,expire_date,install_period,tot_amt).enqueue(new Callback<CardAuthResult>() {
                             @Override
-                            public void onResponse(Call<Post> call, Response<Post> response) {
+                            public void onResponse(Call<CardAuthResult> call, Response<CardAuthResult> response) {
+                                //  정상 통신 된 경우
                                 if(response.isSuccessful()){
-                                    Log.d("posts",response.body().title);
-                                    Toast.makeText(getApplicationContext(), "yes", Toast.LENGTH_SHORT).show();
-                                }else{
-                                    Toast.makeText(getApplicationContext(), "no", Toast.LENGTH_SHORT).show();
-                                }
-                            }
+                                    Log.d("카드승인 결과",response.body().result_cd);
+                                    if(response.body().result_cd .equals("0000")){
+                                        // 카드 승인이 정상적으로 이루어진 경우
+                                        // 여기서 영수증 출력하면 됨 (res_ 는 리턴값들)
+                                        String res_result_cd = response.body().result_cd;
+                                        String res_result_msg = response.body().result_msg;
+                                        String res_tot_amt = response.body().tot_amt;
+                                        String res_card_no = response.body().card_no;
+                                        String res_expire_date = response.body().expire_date;
+                                        String res_install_period = response.body().install_period;
+                                        String res_transeq = response.body().transeq;
+                                        String res_auth_no = response.body().auth_no;
+                                        String res_coupon_no = response.body().coupon_no;
+                                        String res_app_data = response.body().app_data;
+                                        String res_iss_cd = response.body().iss_cd;
+                                        String res_iss_nm = response.body().iss_nm;
+
+
+
+                                        Toast.makeText(getApplicationContext(), response.body().result_msg, Toast.LENGTH_SHORT).show();
+                                        //----- 결과값 출력 팝
+                                        String valuesMessage = String.format("결과코드: %s\n결과메세지: %s\n결제금액: %s\n카드번호: %s\n유효기간: %s\n할부: %s\n결제일련번호: %s\n승인번호: %s\n쿠폰번호: %s\n결제일시: %s\n신용카드 코드: %s\n신용카드명: %s",
+                                                res_result_cd,res_result_msg,res_tot_amt,res_card_no,res_expire_date,res_install_period,res_transeq,res_auth_no,res_coupon_no,res_app_data,res_iss_cd,res_iss_nm);
+                                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MsrDemoActivity.this);
+                                        builder.setMessage(valuesMessage).setTitle("영수증을 출력하시겠습니까?");
+                                        builder.setPositiveButton("출력", new DialogInterface.OnClickListener(){
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int id)
+                                            {
+                                                //TODO: 영수증출력하
+                                                Toast.makeText(getApplicationContext(), "영수증을 출력합니다", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+                                        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener(){
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int id)
+                                            {
+                                                Toast.makeText(getApplicationContext(), "영수증을 출력하지 않습니다", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                        android.app.AlertDialog dialog = builder.create();
+                                        dialog.show();
+                                        // -----
+                                    }else{
+                                        // TODO: 카드 승인이 실패한 경우
+                                        Toast.makeText(getApplicationContext(), response.body().result_msg, Toast.LENGTH_SHORT).show();
+                                    }
+                            }}
 
                             @Override
-                            public void onFailure(Call<Post> call, Throwable t) {
+                            public void onFailure(Call<CardAuthResult> call, Throwable t) {
                                 Toast.makeText(getApplicationContext(), call.toString(), Toast.LENGTH_SHORT).show();
                                 Log.d("failKong",t.toString());
                             }
                         });
+
 
                         // 3. 결과값받아와서 성공이면 성공 tost 띄우고, 프린트하기
 //                        Toast.makeText(getApplicationContext(), "결제되었습니다", Toast.LENGTH_SHORT).show();

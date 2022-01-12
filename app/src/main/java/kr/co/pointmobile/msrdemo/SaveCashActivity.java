@@ -20,7 +20,7 @@ public class SaveCashActivity extends AppCompatActivity {
         WebView save_cash = (WebView) findViewById(R.id.WebView_save_cash);
         save_cash.setWebViewClient(new WebViewClient());
         save_cash.getSettings().setJavaScriptEnabled(true);
-        save_cash.loadUrl("https://www.tistory.com/");
+        save_cash.loadUrl("http://192.168.1.32:3000/libs/client/card.list.php");
     }
     // 홈 버튼 클릭시 홈화면으로 이동
     public void navToHome(View v){
