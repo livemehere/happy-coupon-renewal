@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#F3F6F8"
-    tools:context=".BuyHappyCouponActivity">
+    tools:context=".AdminCancelActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -51,11 +51,56 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Admin | 취소메뉴" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/btnMenu1"
+            android:layout_width="291dp"
+            android:layout_height="63dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="136dp"
+            android:gravity="center"
+            android:text="쿠폰 구매취소"
+            android:textStyle="bold"
+            app:backgroundTint="#41B6E6"
+            />
+
+        <Button
+            android:id="@+id/btnMenu2"
+            android:layout_width="291dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="쿠폰 사용취소"
+            android:textStyle="bold"
+            app:backgroundTint="#41B6E6"
+            />
+
+        <Button
+            android:id="@+id/btnMenu3"
+            android:layout_width="291dp"
+            android:layout_height="62dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="판매점(가맹점)정보"
+            android:textStyle="bold"
+            app:backgroundTint="#41B6E6" />
+
+        <Button
+            android:id="@+id/btnMenu4"
+            android:layout_width="291dp"
+            android:layout_height="62dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="다운로드"
+            app:backgroundTint="#41B6E6"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
 
 
 </LinearLayout>

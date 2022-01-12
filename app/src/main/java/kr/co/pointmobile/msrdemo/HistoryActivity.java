@@ -8,7 +8,7 @@ import android.webkit.WebViewClient;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class HistoryActivity extends AppCompatActivity {
-
+    public static String serial = android.os.Build.SERIAL;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +21,7 @@ public class HistoryActivity extends AppCompatActivity {
         WebView WebView_history = (WebView) findViewById(R.id.WebView_history);
         WebView_history.setWebViewClient(new WebViewClient());
         WebView_history.getSettings().setJavaScriptEnabled(true);
-        WebView_history.loadUrl("https://www.naver.com/");
+        WebView_history.loadUrl("http://192.168.1.32:3000/libs/client/card.list.php?serial="+serial);
     }
     // 홈 버튼 클릭시 홈화면으로 이동
     public void navToHome(View v){

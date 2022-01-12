@@ -10,7 +10,7 @@ public class CardAuthResult {
     public String transeq;
     public String auth_no;
     public String coupon_no;
-    public String app_data;
+    public String app_date;
     public String iss_cd;
     public String iss_nm;
 }

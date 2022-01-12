@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#F3F6F8"
-    tools:context=".SaveCashActivity">
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    tools:context=".CancelCardActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -56,10 +58,36 @@
 
     </LinearLayout>
 
-    <WebView
-        android:id="@+id/WebView_save_cash"
+    <TextView
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:text="쿠폰 결제 취소"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        />
+    <EditText
+        android:id="@+id/coupon_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="쿠폰번호를 입력하세요"
+        android:textSize="20dp"
+        android:inputType="number"
+        />
+
+
+    <Button
+        android:id="@+id/Button_use"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        android:padding="20dp"
+        android:text="결제취소" />
 
 
 </LinearLayout>

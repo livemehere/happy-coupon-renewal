@@ -11,7 +11,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,7 +32,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Arrays;
 
 import kr.co.pointmobile.msrdemo.models.CardAuthResult;
-import kr.co.pointmobile.msrdemo.models.Post;
 import kr.co.pointmobile.msrdemo.retrofit.RetrofitFactory;
 import kr.co.pointmobile.msrdemo.retrofit.RetrofitService;
 import kr.co.pointmobile.msrdemo.utils.PmUtils;
@@ -44,7 +42,6 @@ import vpos.apipackage.Icc;
 import vpos.apipackage.Mcr;
 import vpos.messenger.MessengerClient;
 
-import static android.os.Build.getSerial;
 import static vpos.apipackage.Icc.Lib_IccClose;
 import static vpos.apipackage.Mcr.Lib_McrClose;
 import static vpos.apipackage.Mcr.Lib_McrRead;
@@ -622,7 +619,7 @@ public class MsrDemoActivity extends AppCompatActivity
                                     Log.d("카드승인 결과",response.body().result_cd);
                                     if(response.body().result_cd .equals("0000")){
                                         // 카드 승인이 정상적으로 이루어진 경우
-                                        // 여기서 영수증 출력하면 됨 (res_ 는 리턴값들)
+                                        // TODO: 여기서 영수증 출력하면 됨 (res_ 는 리턴값들)
                                         String res_result_cd = response.body().result_cd;
                                         String res_result_msg = response.body().result_msg;
                                         String res_tot_amt = response.body().tot_amt;
@@ -632,10 +629,10 @@ public class MsrDemoActivity extends AppCompatActivity
                                         String res_transeq = response.body().transeq;
                                         String res_auth_no = response.body().auth_no;
                                         String res_coupon_no = response.body().coupon_no;
-                                        String res_app_data = response.body().app_data;
+                                        String res_app_data = response.body().app_date;
                                         String res_iss_cd = response.body().iss_cd;
                                         String res_iss_nm = response.body().iss_nm;
-
+                                        Log.d("결제완료된 쿠폰번호",res_coupon_no);
 
 
                                         Toast.makeText(getApplicationContext(), response.body().result_msg, Toast.LENGTH_SHORT).show();
@@ -648,8 +645,9 @@ public class MsrDemoActivity extends AppCompatActivity
                                             @Override
                                             public void onClick(DialogInterface dialog, int id)
                                             {
-                                                //TODO: 영수증출력하
+                                                //TODO: 영수증출력하기
                                                 Toast.makeText(getApplicationContext(), "영수증을 출력합니다", Toast.LENGTH_SHORT).show();
+                                                finish();
                                             }
                                         });
 
@@ -918,5 +916,13 @@ public class MsrDemoActivity extends AppCompatActivity
             showProgress(MsrDemoActivity.this, false);
             super.onPostExecute(aVoid);
         }
+    }
+    // 홈 버튼 클릭시 홈화면으로 이동
+    public void navToHome(View v){
+        finish();
+    }
+    // 종료 버튼 시 모든 Activity 종료
+    public void finishApp(View v){
+        finishAffinity();
     }
 }
