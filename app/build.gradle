@@ -1,0 +1,37 @@
+apply plugin: 'com.android.application'
+
+android {
+
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+
+        applicationId "kr.co.pointmobile.msrdemo"
+        minSdkVersion 24
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+        }
+    }
+
+
+}
+
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation files ('libs/AndroidAPI.jar')
+    implementation files ('libs/emvkernel.jar')
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    compileOnly files ('libs/device.sdk.classes.jar')
+}

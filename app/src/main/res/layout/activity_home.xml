@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="52dp"
+        app:srcCompat="@drawable/logo" />
+
+    <Button
+        android:id="@+id/btnMenu1"
+        android:layout_width="291dp"
+        android:layout_height="63dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="136dp"
+        android:gravity="center"
+        android:text="해피쿠폰 구매"
+        android:textStyle="bold"
+        app:backgroundTint="#41B6E6"
+        />
+
+    <Button
+        android:id="@+id/btnMenu2"
+        android:layout_width="291dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="해피쿠폰 사용"
+        android:textStyle="bold"
+        app:backgroundTint="#41B6E6"
+         />
+
+    <Button
+        android:id="@+id/btnMenu3"
+        android:layout_width="291dp"
+        android:layout_height="62dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="캐쉬적립"
+        android:textStyle="bold"
+        app:backgroundTint="#41B6E6" />
+
+    <Button
+        android:id="@+id/btnMenu4"
+        android:layout_width="291dp"
+        android:layout_height="62dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="거래내역"
+        app:backgroundTint="#41B6E6"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnMenu5"
+        android:layout_width="291dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Admin | 취소메뉴"
+        android:textStyle="bold"
+        app:backgroundTint="#41B6E6" />
+
+</LinearLayout>
