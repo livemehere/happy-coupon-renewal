@@ -55,13 +55,7 @@ public class CancelCardActivity extends AppCompatActivity {
                                 String res_tot_amt = response.body().tot_amt;
                                 String res_transeq = response.body().transeq;
                                 String res_app_date = response.body().app_date;
-//                                String res_card_no = response.body().card_no;
-//                                String res_expire_date = response.body().expire_date;
-//                                String res_install_period = response.body().install_period;
-//                                String res_auth_no = response.body().auth_no;
-//                                String res_coupon_no = response.body().coupon_no;
-//                                String res_iss_cd = response.body().iss_cd;
-//                                String res_iss_nm = response.body().iss_nm;
+
 
                                 Toast.makeText(getApplicationContext(), response.body().result_msg, Toast.LENGTH_SHORT).show();
                                 //----- 결과값 출력 팝

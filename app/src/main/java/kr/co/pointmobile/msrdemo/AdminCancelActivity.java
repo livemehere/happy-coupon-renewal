@@ -2,6 +2,7 @@ package kr.co.pointmobile.msrdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 
@@ -39,16 +40,14 @@ public class AdminCancelActivity extends AppCompatActivity {
         });
         button3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), SaveCashActivity.class);
+                Intent intent = new Intent(v.getContext(), MargetInfoActivity.class);
                 startActivity(intent);
 //                Toast.makeText(getApplicationContext(),"버튼이 눌러졌습니다~~.",Toast.LENGTH_SHORT).show();
             }
         });
         button4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), HistoryActivity.class);
-                startActivity(intent);
-//                Toast.makeText(getApplicationContext(),"버튼이 눌러졌습니다~~.",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(Settings.ACTION_SETTINGS));
             }
         });
 

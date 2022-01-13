@@ -95,7 +95,7 @@
             android:layout_height="62dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="다운로드"
+            android:text="환경설정"
             app:backgroundTint="#41B6E6"
             android:textStyle="bold" />
 

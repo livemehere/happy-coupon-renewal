@@ -2,9 +2,11 @@ package kr.co.pointmobile.msrdemo.retrofit;
 
 import kr.co.pointmobile.msrdemo.models.CardAuthResult;
 import kr.co.pointmobile.msrdemo.models.Coupon;
+import kr.co.pointmobile.msrdemo.models.Marget;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -30,7 +32,9 @@ public interface RetrofitService {
     Call<Coupon> cancelCoupon(@Query("serial") String serial,
                            @Query("coupon_no") String coupon_no);
 
-
+    //가맹점 정보 받아오기
+    @GET("/libs/client/agent.search.php")
+    Call<Marget> getMargetInfo(@Query("serial") String serial);
 
 
 }

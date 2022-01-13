@@ -1,18 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
     defaultConfig {
 
         applicationId "kr.co.pointmobile.msrdemo"
-        minSdkVersion 24
-        targetSdkVersion 29
+        minSdkVersion 23
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
     }
@@ -39,5 +36,9 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+
+    implementation group: 'com.google.zxing', name: 'core', version: '3.3.0'
     compileOnly files ('libs/device.sdk.classes.jar')
+
+    implementation files ('libs/device.sdk.print.aar')
 }

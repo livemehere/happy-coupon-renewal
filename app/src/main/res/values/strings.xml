@@ -2,8 +2,8 @@
 
     <!-- Application -->
     <string name="app_name">해피쿠폰</string>
-    <string name="msg_version_suffix">Unknown</string>
-    <string name="action_info">Information</string>
+    <string name="msg_version_suffix">1.0.0</string>
+    <string name="action_info">해피쿠폰 단말기 앱</string>
     <!-- UI -->
     <string name="btn_read_start">Start reading</string>
     <string name="btn_read_init">Start Initialization</string>
@@ -99,6 +99,37 @@
     <string name="clear_data_dialog_negative">NO</string>
     <string name="data_clear_success_msg">The test data cleared!</string>
     <string name="data_clear_cancel_msg">The test data clearing canceled!</string>
+
+    <string name="intro_sample">Sample print test</string>
+    <string name="intro_base">Basic item print test</string>
+    <string name="intro_custom">Custom text style test</string>
+
+
+    <string name="btn_start">START</string>
+    <string name="btn_stop">STOP</string>
+    <string name="btn_cancel">CANCEL</string>
+
+    <string name="print_work_inprogress">Print Work Inprogress</string>
+    <string name="print_work_start">Print Work Start</string>
+
+    <string name="btn_text_method">ADD TEXT</string>
+    <string name="btn_preset">PRESET</string>
+    <string name="btn_receipt">RECEIPT</string>
+    <string name="btn_reset">RESET</string>
+
+    <string name="dialog_make_bmp">Make Bitmap image...</string>
+    <string name="dialog_print_bmp">Print Bitmap image...</string>
+
+    <string name="option_print_gray">print gray</string>
+
+    <string name="btn_bitmap">BITMAP</string>
+    <string name="btn_barcode">BARCODE</string>
+    <string name="btn_line">LINE</string>
+    <string name="btn_text">ADD</string>
+
+    <string name="add_text">Text Print : </string>
+
+    <string name="print_btn">PRINT</string>
 
 
 </resources>

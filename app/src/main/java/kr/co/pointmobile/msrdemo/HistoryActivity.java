@@ -21,7 +21,7 @@ public class HistoryActivity extends AppCompatActivity {
         WebView WebView_history = (WebView) findViewById(R.id.WebView_history);
         WebView_history.setWebViewClient(new WebViewClient());
         WebView_history.getSettings().setJavaScriptEnabled(true);
-        WebView_history.loadUrl("http://192.168.1.32:3000/libs/client/card.list.php?serial="+serial);
+        WebView_history.loadUrl("http://hc.happycoupon.co.kr/libs/client/card.list.php?serial="+serial);
     }
     // 홈 버튼 클릭시 홈화면으로 이동
     public void navToHome(View v){

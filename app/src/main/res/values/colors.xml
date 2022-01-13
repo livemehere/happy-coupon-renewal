@@ -12,4 +12,18 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#41B6E6</color>
+
+    <color name="ic_launcher_background_pm">#F1F1F1</color>
+
+
+    <color name="buttonColor">#D7D7D7</color>
+
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorOptionBackground">#F5F5F5</color>
+    <color name="colorSubBackground">#E5E5E5</color>
+
+    <color name="tabNoSelect">#D7D7D7</color>
+    <color name="tabSelect">#FFFFFF</color>
+
+    <color name="divder">#33333333</color>
 </resources>

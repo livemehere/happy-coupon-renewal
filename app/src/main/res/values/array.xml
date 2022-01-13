@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="preset_list">
+        <item>Line 60 H 100%</item>
+        <item>Line 45 H 100%</item>
+        <item>Line 40 H 100%</item>
+        <item>Line 30 H 100%</item>
+        <item>Line 20 H 100%</item>
+
+        <item>Line 60 H 150%</item>
+        <item>Line 45 H 150%</item>
+        <item>Line 40 H 150%</item>
+        <item>Line 30 H 150%</item>
+        <item>Line 20 H 150%</item>
+
+        <item>Line 60 H 200%</item>
+        <item>Line 45 H 200%</item>
+        <item>Line 40 H 200%</item>
+        <item>Line 30 H 200%</item>
+        <item>Line 20 H 200%</item>
+    </string-array>
+</resources>

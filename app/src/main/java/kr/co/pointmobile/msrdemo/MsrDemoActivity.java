@@ -6,6 +6,9 @@ import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -19,8 +22,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,6 +38,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Arrays;
 
+import device.sdk.print.Printer;
+import device.sdk.print.ReceiptPrint;
+import device.sdk.print.utils.ExFormat;
 import kr.co.pointmobile.msrdemo.models.CardAuthResult;
 import kr.co.pointmobile.msrdemo.retrofit.RetrofitFactory;
 import kr.co.pointmobile.msrdemo.retrofit.RetrofitService;
@@ -46,6 +56,28 @@ import static vpos.apipackage.Icc.Lib_IccClose;
 import static vpos.apipackage.Mcr.Lib_McrClose;
 import static vpos.apipackage.Mcr.Lib_McrRead;
 import static vpos.emvkernel.EmvKernel.EmvLib_GetTLV;
+
+import static device.sdk.print.Printer.BMP_PRINT_COMMON_SUCCESS;
+import static device.sdk.print.Printer.ERROR_NO_FONT_LIBRARY;
+import static device.sdk.print.ReceiptPrint.ALIGN_CENTER;
+import static device.sdk.print.ReceiptPrint.ALIGN_RIGHT;
+import static device.sdk.print.ReceiptPrint.BITMAP_FIX_WIDTH;
+import static device.sdk.print.ReceiptPrint.BITMAP_MAX_HEIGHT;
+import static device.sdk.print.ReceiptPrint.PRESET_W20H100;
+import static device.sdk.print.ReceiptPrint.PRESET_W20H150;
+import static device.sdk.print.ReceiptPrint.PRESET_W20H200;
+import static device.sdk.print.ReceiptPrint.PRESET_W30H100;
+import static device.sdk.print.ReceiptPrint.PRESET_W30H150;
+import static device.sdk.print.ReceiptPrint.PRESET_W30H200;
+import static device.sdk.print.ReceiptPrint.PRESET_W40H100;
+import static device.sdk.print.ReceiptPrint.PRESET_W40H150;
+import static device.sdk.print.ReceiptPrint.PRESET_W40H200;
+import static device.sdk.print.ReceiptPrint.PRESET_W45H100;
+import static device.sdk.print.ReceiptPrint.PRESET_W45H150;
+import static device.sdk.print.ReceiptPrint.PRESET_W45H200;
+import static device.sdk.print.ReceiptPrint.PRESET_W60H100;
+import static device.sdk.print.ReceiptPrint.PRESET_W60H150;
+import static device.sdk.print.ReceiptPrint.PRESET_W60H200;
 
 public class MsrDemoActivity extends AppCompatActivity
 {
@@ -100,6 +132,45 @@ public class MsrDemoActivity extends AppCompatActivity
 
     private Resources res;
 
+    //TODO: print 파트
+
+    private String printBtn;
+    private String grayPlusBtn;
+    private String grayMinusBtn;
+    private String grayValText ="3";
+    private boolean checkBoxBoldStyle;
+
+    private Button textMethodBtn;
+    private Button presetBtn;
+    private Button receiptBtn;
+    private Button resetBtn;
+
+    private ScrollView scrollView;
+    private ImageView imageView;
+
+    private ProgressDialog inprogressDialog;
+
+    private ReceiptPrint receipt;
+    private Printer printer;
+
+    private final int SELECT_TEXT_METHOD = 0;
+    private final int SELECT_PRESET = 1;
+    private final int SELECT_RECEIPT = 2;
+    private final int SELECT_RESET = 3;
+
+    public String res_result_cd;
+    public String res_result_msg;
+    public String res_tot_amt;
+    public String res_card_no;
+    public String res_expire_date;
+    public String res_install_period;
+    public String res_transeq;
+    public String res_auth_no;
+    public String res_coupon_no;
+    public String res_app_date;
+    public String res_iss_cd;
+    public String res_iss_nm;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -118,10 +189,15 @@ public class MsrDemoActivity extends AppCompatActivity
         aBar.setDisplayShowHomeEnabled(true);
 
         res = getResources();
-        Log.d("ttt","yeseyseys");
 
         initActivity();
         clearResult();
+
+        //TODO: print
+        initUIComponent();
+
+        receipt = ((BaseApplication)getApplication()).getReceiptPrint();
+        printer = ((BaseApplication)getApplication()).getPrinter();
 
 //         상단 앱바 가리기
         if (getSupportActionBar() != null) {
@@ -620,32 +696,57 @@ public class MsrDemoActivity extends AppCompatActivity
                                     if(response.body().result_cd .equals("0000")){
                                         // 카드 승인이 정상적으로 이루어진 경우
                                         // TODO: 여기서 영수증 출력하면 됨 (res_ 는 리턴값들)
-                                        String res_result_cd = response.body().result_cd;
-                                        String res_result_msg = response.body().result_msg;
-                                        String res_tot_amt = response.body().tot_amt;
-                                        String res_card_no = response.body().card_no;
-                                        String res_expire_date = response.body().expire_date;
-                                        String res_install_period = response.body().install_period;
-                                        String res_transeq = response.body().transeq;
-                                        String res_auth_no = response.body().auth_no;
-                                        String res_coupon_no = response.body().coupon_no;
-                                        String res_app_data = response.body().app_date;
-                                        String res_iss_cd = response.body().iss_cd;
-                                        String res_iss_nm = response.body().iss_nm;
+                                        res_result_cd = response.body().result_cd;
+                                        res_result_msg = response.body().result_msg;
+                                        res_tot_amt = response.body().tot_amt;
+                                        res_card_no = response.body().card_no;
+                                        res_expire_date = response.body().expire_date;
+                                        res_install_period = response.body().install_period;
+                                        res_transeq = response.body().transeq;
+                                        res_auth_no = response.body().auth_no;
+                                        res_coupon_no = response.body().coupon_no;
+                                        res_app_date = response.body().app_date;
+                                        res_iss_cd = response.body().iss_cd;
+                                        res_iss_nm = response.body().iss_nm;
                                         Log.d("결제완료된 쿠폰번호",res_coupon_no);
+
+//                                        ShowAsyncTask receiptTask = new ShowAsyncTask(SELECT_RECEIPT);
+//                                        receiptTask.execute();
+
+                                        makeReceipt();
 
 
                                         Toast.makeText(getApplicationContext(), response.body().result_msg, Toast.LENGTH_SHORT).show();
                                         //----- 결과값 출력 팝
                                         String valuesMessage = String.format("결과코드: %s\n결과메세지: %s\n결제금액: %s\n카드번호: %s\n유효기간: %s\n할부: %s\n결제일련번호: %s\n승인번호: %s\n쿠폰번호: %s\n결제일시: %s\n신용카드 코드: %s\n신용카드명: %s",
-                                                res_result_cd,res_result_msg,res_tot_amt,res_card_no,res_expire_date,res_install_period,res_transeq,res_auth_no,res_coupon_no,res_app_data,res_iss_cd,res_iss_nm);
+                                                res_result_cd,res_result_msg,res_tot_amt,res_card_no,res_expire_date,res_install_period,res_transeq,res_auth_no,res_coupon_no,res_app_date,res_iss_cd,res_iss_nm);
                                         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MsrDemoActivity.this);
                                         builder.setMessage(valuesMessage).setTitle("영수증을 출력하시겠습니까?");
                                         builder.setPositiveButton("출력", new DialogInterface.OnClickListener(){
+                                            // 레시피 생성
+//
+
+
                                             @Override
                                             public void onClick(DialogInterface dialog, int id)
                                             {
+
                                                 //TODO: 영수증출력하기
+//                                                byte grayVal = Byte.valueOf(grayValText);
+                                                //프린트 시작
+//                                                PrintAsyncTask printTask = new PrintAsyncTask(receipt, grayVal);
+//                                                printTask.execute();
+
+                                                if (receipt != null) {
+                                                    int ret = printer.setGrayValue(3);
+                                                    if (ret == BMP_PRINT_COMMON_SUCCESS || ret == ERROR_NO_FONT_LIBRARY) {
+                                                        ret = printer.print(receipt);
+                                                    }
+
+                                                }
+
+
+
                                                 Toast.makeText(getApplicationContext(), "영수증을 출력합니다", Toast.LENGTH_SHORT).show();
                                                 finish();
                                             }
@@ -655,7 +756,11 @@ public class MsrDemoActivity extends AppCompatActivity
                                             @Override
                                             public void onClick(DialogInterface dialog, int id)
                                             {
+                                                //레시피 초기화
+//                                                ShowAsyncTask resetTask = new ShowAsyncTask(SELECT_RESET);
+//                                                resetTask.execute();
                                                 Toast.makeText(getApplicationContext(), "영수증을 출력하지 않습니다", Toast.LENGTH_SHORT).show();
+                                                finish();
                                             }
                                         });
                                         android.app.AlertDialog dialog = builder.create();
@@ -665,12 +770,15 @@ public class MsrDemoActivity extends AppCompatActivity
                                         // TODO: 카드 승인이 실패한 경우
                                         Toast.makeText(getApplicationContext(), response.body().result_msg, Toast.LENGTH_SHORT).show();
                                     }
+
                             }}
 
                             @Override
                             public void onFailure(Call<CardAuthResult> call, Throwable t) {
-                                Toast.makeText(getApplicationContext(), call.toString(), Toast.LENGTH_SHORT).show();
-                                Log.d("failKong",t.toString());
+//                                Toast.makeText(getApplicationContext(), call.toString(), Toast.LENGTH_SHORT).show();
+
+                                Toast.makeText(getApplicationContext(), call.request().toString(), Toast.LENGTH_SHORT).show();
+
                             }
                         });
 
@@ -762,55 +870,48 @@ public class MsrDemoActivity extends AppCompatActivity
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.action_info:
-                openInfo();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+//    {
+//        switch (item.getItemId())
+//        {
+//            case R.id.action_info:
+//                openInfo();
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
-    private void openInfo()
-    {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                dialog.dismiss();
-            }
-        });
-
-        String version = getString(R.string.msg_version_suffix);
-        try
-        {
-            PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
-            if (pi != null)
-            {
-                version = pi.versionName;
-            }
-        } catch (PackageManager.NameNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-
-        alert.setMessage(getString(R.string.app_name) + " v" + version);
-        alert.show();
-    }
+//    private void openInfo()
+//    {
+//        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+//        alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which)
+//            {
+//                dialog.dismiss();
+//            }
+//        });
+//
+//        String version = getString(R.string.msg_version_suffix);
+//        try
+//        {
+//            PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+//            if (pi != null)
+//            {
+//                version = pi.versionName;
+//            }
+//        } catch (PackageManager.NameNotFoundException e)
+//        {
+//            e.printStackTrace();
+//        }
+//
+//        alert.setMessage(getString(R.string.app_name) + " v" + version);
+//        alert.show();
+//    }
 
     public void showClearDataDialog()
     {
@@ -925,4 +1026,322 @@ public class MsrDemoActivity extends AppCompatActivity
     public void finishApp(View v){
         finishAffinity();
     }
+
+    //TODO: print
+    // <2. Init>
+    private void initUIComponent() {
+
+
+//        grayValText = "";
+//        printBtn = findViewById(R.id.)
+//        printBtn.setOnClickListener(buttonOnClickListener); //FIXME: 버튼이벤트 영수증출력버튼에 넣기
+//        checkBoxBoldStyle = false;
+
+//        grayPlusBtn = findViewById(R.id.gray_val_plus);
+//        grayPlusBtn.setOnClickListener(buttonOnClickListener);
+//        grayMinusBtn = findViewById(R.id.gray_val_minus);
+//        grayMinusBtn.setOnClickListener(buttonOnClickListener);
+
+//        textMethodBtn = findViewById(R.id.textMethodBtn);
+//        textMethodBtn.setOnClickListener(buttonOnClickListener);
+//        presetBtn = findViewById(R.id.presetBtn);
+//        presetBtn.setOnClickListener(buttonOnClickListener);
+//        receiptBtn = findViewById(R.id.receiptBtn);
+//        receiptBtn.setOnClickListener(buttonOnClickListener);
+//        resetBtn = findViewById(R.id.resetBtn);
+//        resetBtn.setOnClickListener(buttonOnClickListener);
+
+//        imageView = findViewById(R.id.imageView);
+//        scrollView = findViewById(R.id.scrollView);
+//        scrollView.setHorizontalScrollBarEnabled(true);
+//        scrollView.setVerticalScrollBarEnabled(true);
+
+//        inprogressDialog = new ProgressDialog(this, R.style.ThemeCustomProgressDialog);
+//        inprogressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//        inprogressDialog.setCancelable(false);
+//        inprogressDialog.setCanceledOnTouchOutside(false);
+    }
+
+    // </2. Init>
+
+    // <3. Print>
+    private class PrintAsyncTask extends AsyncTask<Void, Void, Integer> {
+        public byte grayValue = 1;
+        public ReceiptPrint receipt = null;
+
+        public PrintAsyncTask(ReceiptPrint receipt, byte grayValue) {
+            super();
+            this.receipt = receipt;
+            this.grayValue = grayValue;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            inprogressDialog.setMessage(getString(R.string.dialog_print_bmp));
+            inprogressDialog.show();
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            if (receipt == null) {
+                return -1;
+            }
+
+            int ret = printer.setGrayValue(grayValue);
+            if (ret == BMP_PRINT_COMMON_SUCCESS || ret == ERROR_NO_FONT_LIBRARY) {
+                ret = printer.print(receipt);
+            }
+            return ret;
+        }
+
+        @Override
+        protected void onPostExecute(Integer res) {
+            super.onPostExecute(res);
+            inprogressDialog.dismiss();
+
+            String result = printer.getReturnMessage(res);
+            Toast.makeText(MsrDemoActivity.this, result, Toast.LENGTH_SHORT).show();
+        }
+    }
+    // </3. Print>
+
+    private class ShowAsyncTask extends AsyncTask<Void, Void, Void> {
+        int select = 0;
+        public ShowAsyncTask(int select){
+
+            this.select = select;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            inprogressDialog.setMessage(getString(R.string.dialog_make_bmp));
+            inprogressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            receipt.init();
+            if(checkBoxBoldStyle){
+                receipt.setBoldTypeface();
+            }
+
+            if(select == SELECT_TEXT_METHOD){
+                makeAddText();
+            }else if(select == SELECT_PRESET){
+                makePreset();
+            }else if(select == SELECT_RECEIPT){
+                makeReceipt();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            inprogressDialog.dismiss();
+
+            final Bitmap temp = receipt.getBitmapDrawEndPoint();
+            imageView.setImageBitmap(temp);
+            imageView.setAdjustViewBounds(true);
+        }
+    }
+
+
+    private void makePreset() {
+
+    }
+
+    private void makeReceipt() {
+        try {
+            // 영수증 헤더 영역8
+//            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pm_logo);
+//            receipt.addBitmapFitWidth(bitmap)
+
+
+//            {
+//                "serial": "2021310008",
+//                    "card_no": "5365101546064332",
+//                    "expire_date": "2605",
+//                    "install_period": "00",
+//                    "tot_amt": "1004",
+//                    "agentid": "26",
+//                    "onfftid": "OFPT000000003505",
+//                    "cert_type": 1,
+//                    "card_user_type": 0,
+//                    "user_nm": "soo",
+//                    "user_phone2": "02-1600-8952",
+//                    "order_no": "202201121508475044",
+//                    "transeq": "22011215023905947817",
+//                    "result_cd": "0000",
+//                    "result_msg": "정상처리",
+//                    "app_date": "20220112150849",
+//                    "app_dt": "20220112",
+//                    "app_tm": "150849",
+//                    "auth_no": "24002119",
+//                    "issuer_nm": "국민",
+//                    "payment": "1004",
+//                    "regdate": "20220112",
+//                    "regtime": "150849",
+//                    "fee": "6.05",
+//                    "coupon_no": 29
+//            }
+//            res_result_cd
+//                    res_result_msg
+//
+//
+//                    res_expire_date
+//
+//                    res_transeq
+//
+//                    res_iss_cd
+//
+
+
+            receipt.setPreset(PRESET_W30H100);
+            receipt.addTextAlign("신용승인\n", ALIGN_CENTER);
+            receipt.setPreset(PRESET_W40H100);
+            receipt.addText(ExFormat.format("%-20s%20s\n", "거 래 일 시 :", res_app_date));
+            receipt.addText(ExFormat.format("%-20s%20s\n", "카 드 번 호 :", res_card_no));
+            receipt.addText(ExFormat.format("%-20s%20s\n", "카 드 종 류 :", res_iss_nm));
+            receipt.addText(ExFormat.format("%-20s%20s\n", "유 효 기 간 :", "**/**"));
+            receipt.addText(ExFormat.format("%-20s%20s\n", "거 래 유 형 :", "신용승인")); //FIXME
+            receipt.addText(ExFormat.format("%-20s%20s\n", "할 부 개 월 :", res_install_period));
+            receipt.addTextLine("----------------------------------------");
+            receipt.addText(ExFormat.format("%-20s%18s원\n", "공 급 가 액 :", res_tot_amt)); //FIXME
+            receipt.addText(ExFormat.format("%-20s%20s\n", "부  가  세  :", "0원")); //FIXME
+            receipt.addText(ExFormat.format("%-20s%18s원\n", "합       계 :", res_tot_amt));
+            receipt.addTextLine("----------------------------------------");
+            receipt.addText(ExFormat.format("%-20s%20s\n", "승 인 번 호 :", res_auth_no));
+            receipt.addTextLine("----------------------------------------");
+            receipt.addText(ExFormat.format("%-20s%20s\n", "가 맹 점 명 :", "해피쿠폰점")); //FIXME
+            receipt.addText(ExFormat.format("%-20s%20s\n", "대 표 자 명 :", "홍길동")); //FIXME
+            receipt.addText(ExFormat.format("%-20s%20s\n", "사 업 자 NO :", "000-00-0000")); //FIXME
+            receipt.addText(ExFormat.format("%-20s%20s\n", "문 의 전 화 :", "010-0000-0000")); //FIXME
+            receipt.addText("경기 머머시 머머구 머머로00번 길 00(머머동) 0층\n\n"); //FIXME
+            receipt.addText("[결제대행사]\n");
+            receipt.addText("(주)온오프코리아\n");
+            receipt.addText(ExFormat.format("%s %s\n\n", "사업자번호  :", "636-88-00753"));
+            receipt.addText("[쿠폰발행사]\n");
+            receipt.addText("(주)해피페이\n");
+            receipt.addText(ExFormat.format("%s %s\n", "사업자번호  :", "140-81-49182"));
+            receipt.addText(ExFormat.format("%s %s\n\n\n", "문 의 전 화 :", "1600-8952"));
+            receipt.addText(ExFormat.format("%-20s%20s\n", "", "구매상품내역"));
+            receipt.addTextLine("----------------------------------------");
+            receipt.addTextAlign("HAPPY COUPON\n", ALIGN_CENTER);
+            receipt.addTextLine("----------------------------------------");
+            receipt.addText(ExFormat.format("%-20s%18s원\n", "쿠 폰 금 액 :", res_tot_amt));
+            receipt.addText(ExFormat.format("%-20s%20s\n", "쿠 폰 번 호  :", res_coupon_no));
+            receipt.addTextLine("----------------------------------------");
+            receipt.addText("http://m.happycoupon.co.kr\n");
+            receipt.addText("에서 사용하신 쿠폰번호로 \n");
+            receipt.addText("해피캐시를 적립하신 후\n");
+            receipt.addText("리커버샵(www.recovershop.co.kr\n");
+            receipt.addText("에서 편리하게 사용하세요\n");
+            receipt.addText("(서명/SIGNATURE)\n");
+
+//            receipt.addText(ExFormat.format("%-30s%10s\n", "123 - 45 - 67890", "가      산"));
+//            receipt.addText(ExFormat.format("%-20s%20s\n", "가산동 디지털로", "T.02)123-4567"));
+//            receipt.addText("홈페이지 http://www.pointmobile.com\n\n");
+//            receipt.setPreset(PRESET_W45H150);
+//            receipt.addText(ExFormat.format("%-25s%20s\n", "구매 2020/12/24/13.36", "거래번호 : 1234-5678"));
+//
+//            // 영수 내역
+//            receipt.addLine();
+//            receipt.setPreset(PRESET_W40H100);
+//            receipt.addText(ExFormat.format("%-23s%-5s%12s\n", "상 품 명", "수량", "금 액"));
+//            receipt.addLine();
+//            receipt.addText(ExFormat.format("%-23s%5d%12d\n", ExFormat.abb("* 브랜드 기타스포츠화", 23), 1, 39000));
+//            receipt.addText(ExFormat.format("  %s\n", "123456 7890"));
+//            receipt.addText(ExFormat.format("%-23s%5d%12d\n", ExFormat.abb("겨울철 여성의류 다운점퍼", 23), 1, 79000));
+//            receipt.addText(ExFormat.format("  %s\n", "123456 7890"));
+//            receipt.addText(ExFormat.format("%-23s%5d%12d\n", ExFormat.abb("Book Sample : 책 샘플 제목 소설책", 23), 1, 27300));
+//            receipt.addText(ExFormat.format("  %s\n\n", "123456 7890"));
+//
+//            receipt.setPreset(PRESET_W40H100);
+//            receipt.addText(ExFormat.format("%30s%10d\n", "과세 물품가액", 96637));
+//            receipt.addText(ExFormat.format("%30s%10d\n\n", "부    가   세", 9663));
+//
+//            receipt.setPreset(PRESET_W40H200);
+//            receipt.addText(ExFormat.format("%-20s%20d\n", "합             계", 106300));
+//            receipt.addText(ExFormat.format("%-20s%20d\n", "카  드   결 제 액", 45300));
+//            receipt.setPreset(PRESET_W40H100);
+//            receipt.addText(ExFormat.format("%-20s%20s\n", "샘플카드", "1234567XXXX1234"));
+//            receipt.addText(ExFormat.format("%-14s%-18s%8s\n", "승인번호", "12345678", "[승인]"));
+//
+//            receipt.getParam().setFakeBoldText(true);
+//            receipt.addText(ExFormat.format("  %-18s%-14s%6s\n", "할부기간[일시불]", "카드청구액", "45300"));
+//            receipt.getParam().setFakeBoldText(false);
+//
+//            receipt.addText(ExFormat.format("%-12s%-20s%8d\n", "캐시비결제", "123456789XXXX1234", 61000));
+//            receipt.addText(ExFormat.format("%-12s%28d\n", "캐시비잔액", 0));
+//            receipt.addText(ExFormat.format("%-12s%28s\n\n", "인증번호", "ABCDEFGH"));
+//
+//            // 포인트 내역
+//            receipt.addTextLine("----------------------------------------");
+//            receipt.addText(ExFormat.format("%-20s%20s\n", "샘플회원카드번호", "1234567XXXX1234"));
+//            receipt.addText(ExFormat.format("%-20s%20s\n", "금 회 적 립 포인트", "286P"));
+//            receipt.addText(ExFormat.format("%-20s%20s\n", "잔  여  포  인  트", "1800P"));
+//            receipt.addText(ExFormat.format("%-20s%20s\n", "사 용 가 능 포인트", "1000P"));
+//            receipt.addTextLine("----------------------------------------");
+//
+//            // 하단
+//            receipt.addText("교환 환불은 구입 후 7일 이내에 영수증을 반드시 제시하셔야 가능하며 환불 시 사은품을 반납하셔야 합니다.\n\n");
+//
+//            receipt.addText(ExFormat.format("%s%s\n", "계산담당자 : ", "홍길동"));
+//            receipt.addText(ExFormat.format("%s%s", "판매책임자 : ", "홍길동"));
+//            receipt.addTextAlign("☎ 010-1234-5678\n", ALIGN_RIGHT);
+//            receipt.addFeed();
+//
+//            // 바코드
+//            String code = "202012251234567812345678";
+//            receipt.addBarcodeFitWidth(code);
+//            receipt.setPreset(PRESET_W40H150);
+//            receipt.addTextAlign(code + '\n', ALIGN_CENTER);
+        } catch (ReceiptPrint.BitmapOutOfRangeException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void makeAddText() {
+
+    }
+    // </Test Code>
+
+
+//    // <Toolbar>
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
+
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        if (id == R.id.action_about) {
+//            openInfo();
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
+//
+//    private void openInfo() {
+//        String version = "Unknown";
+//        try {
+//            PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+//            if (pi != null) {
+//                version = pi.versionName;
+//            }
+//        } catch (PackageManager.NameNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setMessage(getString(R.string.app_name) + " v" + version);
+//        builder.setPositiveButton(getString(android.R.string.ok), null);
+//        builder.create().show();
+//    }
+    // </Toolbar>
 }
