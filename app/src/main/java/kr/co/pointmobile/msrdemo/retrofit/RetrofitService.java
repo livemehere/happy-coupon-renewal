@@ -1,6 +1,7 @@
 package kr.co.pointmobile.msrdemo.retrofit;
 
 import kr.co.pointmobile.msrdemo.models.CardAuthResult;
+import kr.co.pointmobile.msrdemo.models.CardCancelResult;
 import kr.co.pointmobile.msrdemo.models.Coupon;
 import kr.co.pointmobile.msrdemo.models.Marget;
 import retrofit2.Call;
@@ -21,8 +22,8 @@ public interface RetrofitService {
                                   @Query("tot_amt") String tot_amt);
     //카드결제 취소
     @POST("/libs/client/card.cancel.php")
-    Call<CardAuthResult> cancelCard(@Query("serial") String serial,
-                                    @Query("coupon_no") String coupon_no);
+    Call<CardCancelResult> cancelCard(@Query("serial") String serial,
+                                      @Query("coupon_no") String coupon_no);
     //쿠폰 사용 승인
     @POST("/libs/client/coupon.use.php")
     Call<Coupon> useCoupon(@Query("serial") String serial,

@@ -145,7 +145,7 @@ public class MsrDemoActivity extends AppCompatActivity
     private Button receiptBtn;
     private Button resetBtn;
 
-    private ScrollView scrollView;
+//    private ScrreceiptollView scrollView;
     private ImageView imageView;
 
     private ProgressDialog inprogressDialog;
@@ -158,18 +158,44 @@ public class MsrDemoActivity extends AppCompatActivity
     private final int SELECT_RECEIPT = 2;
     private final int SELECT_RESET = 3;
 
-    public String res_result_cd;
-    public String res_result_msg;
-    public String res_tot_amt;
-    public String res_card_no;
-    public String res_expire_date;
-    public String res_install_period;
-    public String res_transeq;
-    public String res_auth_no;
-    public String res_coupon_no;
-    public String res_app_date;
-    public String res_iss_cd;
-    public String res_iss_nm;
+//    public String res_result_cd;
+//    public String res_result_msg;
+//    public String res_tot_amt;
+//    public String res_card_no;
+//    public String res_expire_date;
+//    public String res_install_period;
+//    public String res_transeq;
+//    public String res_auth_no;
+//    public String res_coupon_no;
+//    public String res_app_date;
+//    public String res_iss_cd;
+//    public String res_iss_nm;
+
+    public String res_serial = "";
+    public String res_card_no = "";
+    public String res_expire_date = "";
+    public String res_install_period = "";
+    public String res_tot_amt = "";
+    public String res_agentid = "";
+    public String res_onfftid = "";
+    public String res_cert_type = "";
+    public String res_card_user_type = "";
+    public String res_user_nm = "";
+    public String res_user_phone2 = "";
+    public String res_order_no = "";
+    public String res_transeq = "";
+    public String res_result_cd = "";
+    public String res_result_msg = "";
+    public String res_app_date = "";
+    public String res_app_dt = "";
+    public String res_app_tm = "";
+    public String res_auth_no = "";
+    public String res_issuer_nm = "";
+    public String res_payment = "";
+    public String res_regdate = "";
+    public String res_regtime = "";
+    public String res_fee = "";
+    public String res_coupon_no = "";
 
 
     @Override
@@ -696,18 +722,45 @@ public class MsrDemoActivity extends AppCompatActivity
                                     if(response.body().result_cd .equals("0000")){
                                         // 카드 승인이 정상적으로 이루어진 경우
                                         // TODO: 여기서 영수증 출력하면 됨 (res_ 는 리턴값들)
-                                        res_result_cd = response.body().result_cd;
-                                        res_result_msg = response.body().result_msg;
-                                        res_tot_amt = response.body().tot_amt;
-                                        res_card_no = response.body().card_no;
-                                        res_expire_date = response.body().expire_date;
-                                        res_install_period = response.body().install_period;
-                                        res_transeq = response.body().transeq;
-                                        res_auth_no = response.body().auth_no;
-                                        res_coupon_no = response.body().coupon_no;
-                                        res_app_date = response.body().app_date;
-                                        res_iss_cd = response.body().iss_cd;
-                                        res_iss_nm = response.body().iss_nm;
+//                                        res_result_cd = response.body().result_cd;
+//                                        res_result_msg = response.body().result_msg;
+//                                        res_tot_amt = response.body().tot_amt;
+//                                        res_card_no = response.body().card_no;
+//                                        res_expire_date = response.body().expire_date;
+//                                        res_install_period = response.body().install_period;
+//                                        res_transeq = response.body().transeq;
+//                                        res_auth_no = response.body().auth_no;
+//                                        res_coupon_no = response.body().coupon_no;
+//                                        res_app_date = response.body().app_date;
+//                                        res_iss_cd = response.body().iss_cd;
+//                                        res_iss_nm = response.body().iss_nm;
+
+                                            res_serial = response.body().serial;
+                                            res_card_no = response.body().card_no;
+                                            res_expire_date = response.body().expire_date;
+                                            res_install_period = response.body().install_period;
+                                            res_tot_amt = response.body().tot_amt;
+                                            res_agentid = response.body().agentid;
+                                            res_onfftid = response.body().onfftid;
+                                            res_cert_type = response.body().cert_type;
+                                            res_card_user_type = response.body().card_user_type;
+                                            res_user_nm = response.body().user_nm;
+                                            res_user_phone2 = response.body().user_phone2;
+                                            res_order_no = response.body().order_no;
+                                            res_transeq = response.body().transeq;
+                                            res_result_cd = response.body().result_cd;
+                                            res_result_msg = response.body().result_msg;
+                                            res_app_date = response.body().app_date;
+                                            res_app_dt = response.body().app_dt;
+                                            res_app_tm = response.body().app_tm;
+                                            res_auth_no = response.body().auth_no;
+                                            res_issuer_nm = response.body().issuer_nm;
+                                            res_payment = response.body().payment;
+                                            res_regdate = response.body().regdate;
+                                            res_regtime = response.body().regtime;
+                                            res_fee = response.body().fee;
+                                            res_coupon_no = response.body().coupon_no;
+
                                         Log.d("결제완료된 쿠폰번호",res_coupon_no);
 
 //                                        ShowAsyncTask receiptTask = new ShowAsyncTask(SELECT_RECEIPT);
@@ -718,8 +771,8 @@ public class MsrDemoActivity extends AppCompatActivity
 
                                         Toast.makeText(getApplicationContext(), response.body().result_msg, Toast.LENGTH_SHORT).show();
                                         //----- 결과값 출력 팝
-                                        String valuesMessage = String.format("결과코드: %s\n결과메세지: %s\n결제금액: %s\n카드번호: %s\n유효기간: %s\n할부: %s\n결제일련번호: %s\n승인번호: %s\n쿠폰번호: %s\n결제일시: %s\n신용카드 코드: %s\n신용카드명: %s",
-                                                res_result_cd,res_result_msg,res_tot_amt,res_card_no,res_expire_date,res_install_period,res_transeq,res_auth_no,res_coupon_no,res_app_date,res_iss_cd,res_iss_nm);
+                                        String valuesMessage = String.format("결과코드: %s\n결과메세지: %s\n승인금액: %s\n카드번호: %s\n유효기간: %s\n할부: %s\n결제일련번호: %s\n승인번호: %s\n쿠폰번호: %s\n결제일시: %s\n신용카드 코드: %s\n신용카드명: %s",
+                                                res_result_cd,res_result_msg,res_tot_amt,res_card_no,res_expire_date,res_install_period,res_transeq,res_auth_no,res_coupon_no,res_app_date,res_card_no,res_issuer_nm);
                                         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MsrDemoActivity.this);
                                         builder.setMessage(valuesMessage).setTitle("영수증을 출력하시겠습니까?");
                                         builder.setPositiveButton("출력", new DialogInterface.OnClickListener(){
@@ -1034,7 +1087,7 @@ public class MsrDemoActivity extends AppCompatActivity
 
 //        grayValText = "";
 //        printBtn = findViewById(R.id.)
-//        printBtn.setOnClickListener(buttonOnClickListener); //FIXME: 버튼이벤트 영수증출력버튼에 넣기
+//        printBtn.setOnClickListener(buttonOnClickListener);
 //        checkBoxBoldStyle = false;
 
 //        grayPlusBtn = findViewById(R.id.gray_val_plus);
@@ -1155,56 +1208,12 @@ public class MsrDemoActivity extends AppCompatActivity
 
     private void makeReceipt() {
         try {
-            // 영수증 헤더 영역8
-//            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pm_logo);
-//            receipt.addBitmapFitWidth(bitmap)
-
-
-//            {
-//                "serial": "2021310008",
-//                    "card_no": "5365101546064332",
-//                    "expire_date": "2605",
-//                    "install_period": "00",
-//                    "tot_amt": "1004",
-//                    "agentid": "26",
-//                    "onfftid": "OFPT000000003505",
-//                    "cert_type": 1,
-//                    "card_user_type": 0,
-//                    "user_nm": "soo",
-//                    "user_phone2": "02-1600-8952",
-//                    "order_no": "202201121508475044",
-//                    "transeq": "22011215023905947817",
-//                    "result_cd": "0000",
-//                    "result_msg": "정상처리",
-//                    "app_date": "20220112150849",
-//                    "app_dt": "20220112",
-//                    "app_tm": "150849",
-//                    "auth_no": "24002119",
-//                    "issuer_nm": "국민",
-//                    "payment": "1004",
-//                    "regdate": "20220112",
-//                    "regtime": "150849",
-//                    "fee": "6.05",
-//                    "coupon_no": 29
-//            }
-//            res_result_cd
-//                    res_result_msg
-//
-//
-//                    res_expire_date
-//
-//                    res_transeq
-//
-//                    res_iss_cd
-//
-
-
             receipt.setPreset(PRESET_W30H100);
             receipt.addTextAlign("신용승인\n", ALIGN_CENTER);
             receipt.setPreset(PRESET_W40H100);
             receipt.addText(ExFormat.format("%-20s%20s\n", "거 래 일 시 :", res_app_date));
             receipt.addText(ExFormat.format("%-20s%20s\n", "카 드 번 호 :", res_card_no));
-            receipt.addText(ExFormat.format("%-20s%20s\n", "카 드 종 류 :", res_iss_nm));
+            receipt.addText(ExFormat.format("%-20s%20s\n", "카 드 종 류 :", res_issuer_nm));
             receipt.addText(ExFormat.format("%-20s%20s\n", "유 효 기 간 :", "**/**"));
             receipt.addText(ExFormat.format("%-20s%20s\n", "거 래 유 형 :", "신용승인")); //FIXME
             receipt.addText(ExFormat.format("%-20s%20s\n", "할 부 개 월 :", res_install_period));

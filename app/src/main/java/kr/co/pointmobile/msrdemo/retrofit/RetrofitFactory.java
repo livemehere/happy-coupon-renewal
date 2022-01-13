@@ -8,8 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitFactory {
 //    private static String BASE_URL = "http://192.168.1.32:3000/";
-    private static String BASE_URL = "http://4ad0-110-70-26-58.ngrok.io";
-//    private static String BASE_URL = "http://hc.happycoupon.co.kr/";
+    private static String BASE_URL = "http://hc.happycoupon.co.kr/";
 
     public static RetrofitService create(){
 

@@ -60,7 +60,7 @@ public class CancelCouponActivity extends AppCompatActivity {
                                       @Override
                                       public void onClick(DialogInterface dialog, int id) {
 
-                                          Toast.makeText(getApplicationContext(), "쿠폰 사용 취소 성", Toast.LENGTH_SHORT).show();
+                                          Toast.makeText(getApplicationContext(), "쿠폰 사용 취소 성공", Toast.LENGTH_SHORT).show();
 
                                       }
                                   });
