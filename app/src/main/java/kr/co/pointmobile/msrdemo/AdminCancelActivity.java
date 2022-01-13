@@ -45,11 +45,11 @@ public class AdminCancelActivity extends AppCompatActivity {
 //                Toast.makeText(getApplicationContext(),"버튼이 눌러졌습니다~~.",Toast.LENGTH_SHORT).show();
             }
         });
-        button4.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(new Intent(Settings.ACTION_SETTINGS));
-            }
-        });
+//        button4.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                startActivity(new Intent(Settings.ACTION_SETTINGS));
+//            }
+//        });
 
     }
     // 홈 버튼 클릭시 홈화면으로 이동

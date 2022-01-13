@@ -210,7 +210,7 @@ public class MsrDemoActivity extends AppCompatActivity
         mProgress = new ProgressDialog(MsrDemoActivity.this);
 
         ActionBar aBar = getSupportActionBar();
-        aBar.setIcon(R.drawable.ic_launcher);
+        aBar.setIcon(R.drawable.ic_launcher_foreground);
         aBar.setDisplayUseLogoEnabled(true);
         aBar.setDisplayShowHomeEnabled(true);
 

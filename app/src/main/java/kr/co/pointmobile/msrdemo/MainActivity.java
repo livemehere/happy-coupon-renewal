@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         Button button3 = (Button) findViewById(R.id.btnMenu3);
         Button button4 = (Button) findViewById(R.id.btnMenu4);
         Button button5 = (Button) findViewById(R.id.btnMenu5);
+        Button button6 = (Button) findViewById(R.id.btnMenu6);
 
         button1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -57,6 +58,13 @@ public class MainActivity extends AppCompatActivity {
         button5.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), AdminCancelActivity.class);
+                startActivity(intent);
+//                Toast.makeText(getApplicationContext(),"버튼이 눌러졌습니다~~.",Toast.LENGTH_SHORT).show();
+            }
+        });
+        button6.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), dotActivity.class);
                 startActivity(intent);
 //                Toast.makeText(getApplicationContext(),"버튼이 눌러졌습니다~~.",Toast.LENGTH_SHORT).show();
             }
