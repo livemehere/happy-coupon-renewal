@@ -22,12 +22,11 @@
         android:layout_width="291dp"
         android:layout_height="63dp"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="해피쿠폰 구매"
         android:textStyle="bold"
-        app:backgroundTint="#41B6E6"
-        />
+        app:backgroundTint="#41B6E6" />
 
     <Button
         android:id="@+id/btnMenu2"

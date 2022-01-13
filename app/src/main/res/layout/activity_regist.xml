@@ -65,7 +65,7 @@
             android:text="사업자번호"
             />
         <EditText
-            android:id="@+id/store_name"
+            android:id="@+id/store_business_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="사업자번호"
@@ -108,11 +108,11 @@
             android:text="eEB"
             />
         <EditText
-            android:id="@+id/store_ceoname"
+            android:id="@+id/store_eEB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="eEB"
-            android:text="210100237"
+
             />
     </LinearLayout>
     <LinearLayout
@@ -129,7 +129,7 @@
             android:text="비밀번호"
             />
         <EditText
-            android:id="@+id/store_phone"
+            android:id="@+id/store_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="비밀번호"
@@ -150,7 +150,7 @@
             android:text="비밀번호 확인"
             />
         <EditText
-            android:id="@+id/store_address"
+            android:id="@+id/store_password_check"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="비밀번호 확인"

@@ -31,8 +31,8 @@ public class CancelCouponActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
-        Button Button_use = findViewById(R.id.Button_cancel);
-        Button_use.setOnClickListener(new View.OnClickListener() {
+        Button Button_cancel = findViewById(R.id.Button_cancel);
+        Button_cancel.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
                   EditText get_card_no = (EditText) findViewById(R.id.coupon_no);
@@ -72,6 +72,8 @@ public class CancelCouponActivity extends AppCompatActivity {
                                   // TODO: 카드 승인이 실패한 경우
                                   Toast.makeText(getApplicationContext(), response.body().result_msg, Toast.LENGTH_SHORT).show();
                               }
+                          }else{
+                              Toast.makeText(getApplicationContext(), response.errorBody().toString(), Toast.LENGTH_SHORT).show();
                           }
                       }
                       @Override

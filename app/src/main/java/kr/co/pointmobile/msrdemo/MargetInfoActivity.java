@@ -29,45 +29,49 @@ public class MargetInfoActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-
-        RetrofitService networkService = RetrofitFactory.create();
-        networkService.getMargetInfo(serial).enqueue(new Callback<Marget>() {
-            @Override
-            public void onResponse(Call<Marget> call, Response<Marget> response) {
-                EditText get_store_name = (EditText)findViewById(R.id.store_name);
-                EditText get_store_companyid = (EditText)findViewById(R.id.store_companyid);
-                EditText get_store_ceoname = (EditText)findViewById(R.id.store_ceoname);
-                EditText get_store_phone = (EditText)findViewById(R.id.store_phone);
-                EditText get_store_address = (EditText)findViewById(R.id.store_address);
-                EditText get_serial = (EditText)findViewById(R.id.store_serial);
-
-
-                if(response.isSuccessful()){
-                    get_store_name.setText(response.body().name);
-                    get_store_companyid.setText(response.body().companyid);
-                    get_store_ceoname.setText(response.body().ceoname);
-                    get_store_phone.setText(response.body().phone);
-                    get_store_address.setText(response.body().address);
-                    get_serial.setText(response.body().serial);
+        try {
+            RetrofitService networkService = RetrofitFactory.create();
+            networkService.getMargetInfo(serial).enqueue(new Callback<Marget>() {
+                @Override
+                public void onResponse(Call<Marget> call, Response<Marget> response) {
+                    EditText get_store_name = (EditText)findViewById(R.id.store_name);
+                    EditText get_store_companyid = (EditText)findViewById(R.id.store_companyid);
+                    EditText get_store_ceoname = (EditText)findViewById(R.id.store_ceoname);
+                    EditText get_store_phone = (EditText)findViewById(R.id.store_phone);
+                    EditText get_store_address = (EditText)findViewById(R.id.store_address);
+                    EditText get_serial = (EditText)findViewById(R.id.store_serial);
 
 
+                    if(response.isSuccessful()){
+                        get_store_name.setText(response.body().name);
+                        get_store_companyid.setText(response.body().companyid);
+                        get_store_ceoname.setText(response.body().ceoname);
+                        get_store_phone.setText(response.body().phone);
+                        get_store_address.setText(response.body().address);
+                        get_serial.setText(response.body().serial);
 
-                    Log.d("data1",response.body().name);
-                    Log.d("data1",response.body().companyid);
-                    Log.d("data1",response.body().ceoname);
-                    Log.d("data1",response.body().phone);
-                    Log.d("data1",response.body().address);
-                    Log.d("data1",response.body().serial);
-                }else{
-                    Toast.makeText(getApplicationContext(), response.errorBody().toString(), Toast.LENGTH_SHORT).show();
+
+
+                        Log.d("data1",response.body().name);
+                        Log.d("data1",response.body().companyid);
+                        Log.d("data1",response.body().ceoname);
+                        Log.d("data1",response.body().phone);
+                        Log.d("data1",response.body().address);
+                        Log.d("data1",response.body().serial);
+                    }else{
+                        Toast.makeText(getApplicationContext(), response.errorBody().toString(), Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Marget> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<Marget> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }catch (Exception e) {
+            Log.w("에러", "가맹점 정보 불로오는 중 에러발생 ", e);
+        }
+
 
     }
 
