@@ -1231,26 +1231,70 @@ public class MsrDemoActivity extends AppCompatActivity
 
 
         try {
-            receipt.setPreset(PRESET_W30H100);
+//            receipt.setPreset(PRESET_W30H100);
+//            receipt.addTextAlign("신용승인\n", ALIGN_CENTER);
+//            receipt.setPreset(PRESET_W40H100);
+//            receipt.addText(ExFormat.format("%-20s%20s\n", "거 래 일 시 :", res_app_date));
+//            receipt.addText(ExFormat.format("%-20s%20s\n", "카 드 번 호 :", res_card_no));
+//            receipt.addText(ExFormat.format("%-20s%20s\n", "카 드 종 류 :", res_issuer_nm));
+//            receipt.addText(ExFormat.format("%-20s%20s\n", "유 효 기 간 :", "**/**"));
+//            receipt.addText(ExFormat.format("%-20s%20s\n", "거 래 유 형 :", "신용승인")); //FIXME
+//            receipt.addText(ExFormat.format("%-20s%20s\n", "할 부 개 월 :", res_install_period));
+//            receipt.addTextLine("----------------------------------------");
+//            receipt.addText(ExFormat.format("%-20s%18s원\n", "공 급 가 액 :", res_tot_amt)); //FIXME
+//            receipt.addText(ExFormat.format("%-20s%20s\n", "부  가  세  :", "0원")); //FIXME
+//            receipt.addText(ExFormat.format("%-20s%18s원\n", "합       계 :", res_tot_amt));
+//            receipt.addTextLine("----------------------------------------");
+//            receipt.addText(ExFormat.format("%-20s%20s\n", "승 인 번 호 :", res_auth_no));
+//            receipt.addTextLine("----------------------------------------");
+//            receipt.addText(ExFormat.format("%-20s%20s\n", "가 맹 점 명 :", name)); //FIXME
+//            receipt.addText(ExFormat.format("%-20s%20s\n", "대 표 자 명 :", ceoname)); //FIXME
+//            receipt.addText(ExFormat.format("%-20s%20s\n", "사 업 자 NO :", companyid)); //FIXME
+//            receipt.addText(ExFormat.format("%-20s%20s\n", "문 의 전 화 :", phone)); //FIXME
+//            receipt.addText(ExFormat.format("%s\n\n", address)); //FIXME
+////            receipt.addText("경기 머머시 머머구 머머로00번 길 00(머머동) 0층\n",); //FIXME
+//            receipt.addText("[결제대행사]\n");
+//            receipt.addText("(주)온오프코리아\n");
+//            receipt.addText(ExFormat.format("%s %s\n\n", "사업자번호  :", "636-88-00753"));
+//            receipt.addText("[쿠폰발행사]\n");
+//            receipt.addText("(주)해피페이\n");
+//            receipt.addText(ExFormat.format("%s %s\n", "사업자번호  :", "140-81-49182"));
+//            receipt.addText(ExFormat.format("%s %s\n\n\n", "문 의 전 화 :", "1600-8952"));
+//            receipt.addText(ExFormat.format("%-20s%20s\n", "", "구매상품내역"));
+//            receipt.addTextLine("----------------------------------------");
+//            receipt.addTextAlign("HAPPY COUPON\n", ALIGN_CENTER);
+//            receipt.addTextLine("----------------------------------------");
+//            receipt.addText(ExFormat.format("%-20s%18s원\n", "쿠 폰 금 액 :", res_tot_amt));
+//            receipt.addText(ExFormat.format("%-20s%20s\n", "쿠 폰 번 호  :", res_coupon_no));
+//            receipt.addTextLine("----------------------------------------");
+//            receipt.addText("http://m.happycoupon.co.kr\n");
+//            receipt.addText("에서 사용하신 쿠폰번호로 \n");
+//            receipt.addText("해피캐시를 적립하신 후\n");
+//            receipt.addText("리커버샵(www.recovershop.co.kr\n");
+//            receipt.addText("에서 편리하게 사용하세요\n");
+//            receipt.addText("(서명/SIGNATURE)\n");
+
+
+            receipt.setPreset(PRESET_W20H100);
             receipt.addTextAlign("신용승인\n", ALIGN_CENTER);
-            receipt.setPreset(PRESET_W40H100);
-            receipt.addText(ExFormat.format("%-20s%20s\n", "거 래 일 시 :", res_app_date));
-            receipt.addText(ExFormat.format("%-20s%20s\n", "카 드 번 호 :", res_card_no));
-            receipt.addText(ExFormat.format("%-20s%20s\n", "카 드 종 류 :", res_issuer_nm));
-            receipt.addText(ExFormat.format("%-20s%20s\n", "유 효 기 간 :", "**/**"));
-            receipt.addText(ExFormat.format("%-20s%20s\n", "거 래 유 형 :", "신용승인")); //FIXME
-            receipt.addText(ExFormat.format("%-20s%20s\n", "할 부 개 월 :", res_install_period));
-            receipt.addTextLine("----------------------------------------");
-            receipt.addText(ExFormat.format("%-20s%18s원\n", "공 급 가 액 :", res_tot_amt)); //FIXME
-            receipt.addText(ExFormat.format("%-20s%20s\n", "부  가  세  :", "0원")); //FIXME
-            receipt.addText(ExFormat.format("%-20s%18s원\n", "합       계 :", res_tot_amt));
-            receipt.addTextLine("----------------------------------------");
-            receipt.addText(ExFormat.format("%-20s%20s\n", "승 인 번 호 :", res_auth_no));
-            receipt.addTextLine("----------------------------------------");
-            receipt.addText(ExFormat.format("%-20s%20s\n", "가 맹 점 명 :", name)); //FIXME
-            receipt.addText(ExFormat.format("%-20s%20s\n", "대 표 자 명 :", ceoname)); //FIXME
-            receipt.addText(ExFormat.format("%-20s%20s\n", "사 업 자 NO :", companyid)); //FIXME
-            receipt.addText(ExFormat.format("%-20s%20s\n", "문 의 전 화 :", phone)); //FIXME
+            receipt.setPreset(PRESET_W30H100);
+            receipt.addText(ExFormat.format("%-15s%15s\n", "거 래 일 시 :", res_app_date));
+            receipt.addText(ExFormat.format("%-13s%17s\n", "카 드 번 호 :", res_card_no));
+            receipt.addText(ExFormat.format("%-15s%15s\n", "카 드 종 류 :", res_issuer_nm));
+            receipt.addText(ExFormat.format("%-15s%15s\n", "유 효 기 간 :", "**/**"));
+            receipt.addText(ExFormat.format("%-15s%15s\n", "거 래 유 형 :", "신용승인")); //FIXME
+            receipt.addText(ExFormat.format("%-14s%16s\n", "할 부 개 월 :", res_install_period));
+            receipt.addTextLine("------------------------------");
+            receipt.addText(ExFormat.format("%-15s%13s원\n", "공 급 가 액 :", res_tot_amt)); //FIXME
+            receipt.addText(ExFormat.format("%-15s%15s\n", "부  가  세  :", "0원")); //FIXME
+            receipt.addText(ExFormat.format("%-15s%13s원\n", "합       계 :", res_tot_amt));
+            receipt.addTextLine("------------------------------");
+            receipt.addText(ExFormat.format("%-15s%15s\n", "승 인 번 호 :", res_auth_no));
+            receipt.addTextLine("------------------------------");
+            receipt.addText(ExFormat.format("%-15s%15s\n", "가 맹 점 명 :", name)); //FIXME
+            receipt.addText(ExFormat.format("%-15s%15s\n", "대 표 자 명 :", ceoname)); //FIXME
+            receipt.addText(ExFormat.format("%-15s%15s\n", "사 업 자 NO :", companyid)); //FIXME
+            receipt.addText(ExFormat.format("%-15s%15s\n", "문 의 전 화 :", phone)); //FIXME
             receipt.addText(ExFormat.format("%s\n\n", address)); //FIXME
 //            receipt.addText("경기 머머시 머머구 머머로00번 길 00(머머동) 0층\n",); //FIXME
             receipt.addText("[결제대행사]\n");
@@ -1260,13 +1304,13 @@ public class MsrDemoActivity extends AppCompatActivity
             receipt.addText("(주)해피페이\n");
             receipt.addText(ExFormat.format("%s %s\n", "사업자번호  :", "140-81-49182"));
             receipt.addText(ExFormat.format("%s %s\n\n\n", "문 의 전 화 :", "1600-8952"));
-            receipt.addText(ExFormat.format("%-20s%20s\n", "", "구매상품내역"));
-            receipt.addTextLine("----------------------------------------");
+            receipt.addText(ExFormat.format("%-15s%15s\n", "", "구매상품내역"));
+            receipt.addTextLine("------------------------------");
             receipt.addTextAlign("HAPPY COUPON\n", ALIGN_CENTER);
-            receipt.addTextLine("----------------------------------------");
-            receipt.addText(ExFormat.format("%-20s%18s원\n", "쿠 폰 금 액 :", res_tot_amt));
-            receipt.addText(ExFormat.format("%-20s%20s\n", "쿠 폰 번 호  :", res_coupon_no));
-            receipt.addTextLine("----------------------------------------");
+            receipt.addTextLine("------------------------------");
+            receipt.addText(ExFormat.format("%-15s%13s원\n", "쿠 폰 금 액 :", res_tot_amt));
+            receipt.addText(ExFormat.format("%-15s%15s\n", "쿠 폰 번 호  :", res_coupon_no));
+            receipt.addTextLine("------------------------------");
             receipt.addText("http://m.happycoupon.co.kr\n");
             receipt.addText("에서 사용하신 쿠폰번호로 \n");
             receipt.addText("해피캐시를 적립하신 후\n");

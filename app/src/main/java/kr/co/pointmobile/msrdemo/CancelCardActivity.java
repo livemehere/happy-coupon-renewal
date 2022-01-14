@@ -28,6 +28,7 @@ import retrofit2.Response;
 import static device.sdk.print.Printer.BMP_PRINT_COMMON_SUCCESS;
 import static device.sdk.print.Printer.ERROR_NO_FONT_LIBRARY;
 import static device.sdk.print.ReceiptPrint.ALIGN_CENTER;
+import static device.sdk.print.ReceiptPrint.PRESET_W20H100;
 import static device.sdk.print.ReceiptPrint.PRESET_W30H100;
 import static device.sdk.print.ReceiptPrint.PRESET_W40H100;
 
@@ -222,24 +223,24 @@ public class CancelCardActivity extends AppCompatActivity {
     private void makeReceiptCancel() {
         try {
 
-            receipt2.setPreset(PRESET_W30H100);
+            receipt2.setPreset(PRESET_W20H100);
             receipt2.addTextAlign("신용취소\n", ALIGN_CENTER);
-            receipt2.setPreset(PRESET_W40H100);
-            receipt2.addText(ExFormat.format("%-20s%20s\n", "거 래 일 시 :", res_app_date));
-            receipt2.addText(ExFormat.format("%-20s%20s\n", "카 드 번 호 :", res_card_no));
-            receipt2.addText(ExFormat.format("%-20s%20s\n", "유 효 기 간 :", "**/**"));
-            receipt2.addText(ExFormat.format("%-20s%20s\n", "거 래 유 형 :", "신용취소"));
-            receipt2.addTextLine("----------------------------------------");
-            receipt2.addText(ExFormat.format("%-20s%18s원\n", "공 급 가 액 :", res_tot_amt)); //FIXME
-            receipt2.addText(ExFormat.format("%-20s%20s\n", "부  가  세  :", "0원")); //FIXME
-            receipt2.addText(ExFormat.format("%-20s%18s원\n", "합       계 :", res_tot_amt));
-            receipt2.addTextLine("----------------------------------------");
-            receipt2.addText(ExFormat.format("%-20s%20s\n", "승 인 번 호 :", res_card_no));
-            receipt2.addTextLine("----------------------------------------");
-            receipt2.addText(ExFormat.format("%-20s%20s\n", "가 맹 점 명 :", name)); //FIXME
-            receipt2.addText(ExFormat.format("%-20s%20s\n", "대 표 자 명 :", ceoname)); //FIXME
-            receipt2.addText(ExFormat.format("%-20s%20s\n", "사 업 자 NO :", companyid)); //FIXME
-            receipt2.addText(ExFormat.format("%-20s%20s\n", "문 의 전 화 :", phone)); //FIXME
+            receipt2.setPreset(PRESET_W30H100);
+            receipt2.addText(ExFormat.format("%-15s%15s\n", "거 래 일 시 :", res_app_date));
+            receipt2.addText(ExFormat.format("%-13s%17s\n", "카 드 번 호 :", res_card_no));
+            receipt2.addText(ExFormat.format("%-15s%15s\n", "유 효 기 간 :", "**/**"));
+            receipt2.addText(ExFormat.format("%-15s%15s\n", "거 래 유 형 :", "신용취소"));
+            receipt2.addTextLine("------------------------------");
+            receipt2.addText(ExFormat.format("%-15s%13s원\n", "공 급 가 액 :", res_tot_amt)); //FIXME
+            receipt2.addText(ExFormat.format("%-15s%15s\n", "부  가  세  :", "0원")); //FIXME
+            receipt2.addText(ExFormat.format("%-15s%13s원\n", "합       계 :", res_tot_amt));
+            receipt2.addTextLine("------------------------------");
+            receipt2.addText(ExFormat.format("%-15s%15s\n", "승 인 번 호 :", res_card_no));
+            receipt2.addTextLine("------------------------------");
+            receipt2.addText(ExFormat.format("%-15s%15s\n", "가 맹 점 명 :", name)); //FIXME
+            receipt2.addText(ExFormat.format("%-15s%15s\n", "대 표 자 명 :", ceoname)); //FIXME
+            receipt2.addText(ExFormat.format("%-15s%15s\n", "사 업 자 NO :", companyid)); //FIXME
+            receipt2.addText(ExFormat.format("%-15s%15s\n", "문 의 전 화 :", phone)); //FIXME
             receipt2.addText(ExFormat.format("%s\n\n", address)); //FIXME
             receipt2.addText("[결제대행사]\n");
             receipt2.addText("(주)온오프코리아\n");
@@ -248,13 +249,13 @@ public class CancelCardActivity extends AppCompatActivity {
             receipt2.addText("(주)해피페이\n");
             receipt2.addText(ExFormat.format("%s %s\n", "사업자번호  :", "140-81-49182"));
             receipt2.addText(ExFormat.format("%s %s\n\n\n", "문 의 전 화 :", "1600-8952"));
-            receipt2.addText(ExFormat.format("%-20s%20s\n", "", "취소상품내역"));
-            receipt2.addTextLine("----------------------------------------");
+            receipt2.addText(ExFormat.format("%-15s%15s\n", "", "취소상품내역"));
+            receipt2.addTextLine("------------------------------");
             receipt2.addTextAlign("HAPPY COUPON\n", ALIGN_CENTER);
-            receipt2.addTextLine("----------------------------------------");
-            receipt2.addText(ExFormat.format("%-20s%18s원\n", "쿠 폰 금 액 :", res_tot_amt));
-            receipt2.addText(ExFormat.format("%-20s%20s\n", "쿠 폰 번 호  :", coupon_no));
-            receipt2.addTextLine("----------------------------------------");
+            receipt2.addTextLine("------------------------------");
+            receipt2.addText(ExFormat.format("%-15s%13s원\n", "쿠 폰 금 액 :", res_tot_amt));
+            receipt2.addText(ExFormat.format("%-15s%15s\n", "쿠 폰 번 호  :", coupon_no));
+            receipt2.addTextLine("------------------------------");
             receipt2.addText("http://m.happycoupon.co.kr\n");
             receipt2.addText("에서 사용하신 쿠폰번호로 \n");
             receipt2.addText("해피캐시를 적립하신 후\n");
