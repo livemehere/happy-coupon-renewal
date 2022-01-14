@@ -1,41 +1,55 @@
-# 해피쿠폰 외주작업
+# 해피쿠폰 1.0.0 사용 가이드
 
-## TODO
+## Launch
 
-- [ ] serial number 가져오기
-- [ ] 영수증 print 기능 MsrDemoActivity에 가져오기
-- [ ] 영수증 print내용 꾸미기
-- [ ] 쿠폰사용 page http 처리 마무리
-- [ ] admin|취소 page UI 작업하기 (디바이스 저장소 사용하기)
-- [ ] 환경설정 단말기 환경설정 가져오기(뭐말하는거임 어우 ;)
+- 2022/1/14 : 1.0.0 빌드
 
-## Activities
+### 최초 사용시
 
-1. MainActivity(홈)
-2. MsrDemoActivity(해피쿠용구매)
-3. UseHappyCouponActivity(해피쿠폰사용)
-4. SaveCashActivity(캐쉬적립)
-5. HistoryActivity(거래내역)
-6. AdminCancelActivity(Admin|취소)
+- Admin|취소 메뉴 > 판매점(가맹점)정보 클릭(비밀번호는 : '8952')
+  - 서버에서 해당 단말기번호로 등록된 상호명,사업자번호,대표자명,연락처,주소를 받아와 단말기에 저장한다
 
-## build.gradle(:app)
+> 이작업을 반드시 해주어야 정상적으로 사용이 가능합니다
 
-```java
-dependencies {
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation files ('libs/AndroidAPI.jar')
-    implementation files ('libs/emvkernel.jar')
-    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
-    implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-    compileOnly files ('libs/device.sdk.classes.jar')
-}
-```
+### 쿠폰 구매
 
-## AndroidManiffest.xml
+- 할부선택 -> 금액입력 -> 구매하기 클릭
+- 버튼이 'START READING'으로 변경 -> 그상태에서 카드 삽입 or 긁기
+- 카드가 정상적으로 인식됬을시 -> 결제정보 팝업 창이 뜬다 -> 결제버튼 or 취소 선택
+- 결제버튼 클릭시 -> 결제처리 -> 영수증 인쇄여부 선택 yes or no -> 종료
 
-```xml
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-```
+### 쿠폰 사용
 
+- 쿠폰번호를 입력하고 '사용하기'버튼 클릭하면 바로 사용이 됨 (서버로 요청, 별도의 영수증 발행 x)
+
+### 캐쉬적립
+
+- webView
+
+### 거래내역
+
+- 해당 단말기의 번호를 서버로 전송하여, 그에 해당하는 webView 정보를 보여줌
+
+### Admin | 취소 메뉴
+
+#### 쿠폰구매 취소
+
+- 발행된 쿠폰번호를 입력 -> '결제취소'버튼 클릭 -> 환불처리 -> 영수증 출력 여부 선택 yes or no
+
+#### 쿠폰사용 취소
+
+- 사용한 쿠폰 번호를 입력하면, 취소처리(서버로 요청, 별도의 영수증 발행 x)
+
+#### 판매점(가맹점)정보
+
+- 클릭과 동시에 서버로, 해당 단말기번호를 전송하여, 등록된 사용자 정보를 가져오고, 단말기에 값을 저장
+
+### ··· 메뉴
+
+#### 환경설정
+
+- 단말기 자체의 환경설정 으로 이동
+
+#### 단말기등록
+
+- 별도의 기능 없음
