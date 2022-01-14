@@ -29,9 +29,9 @@ public interface RetrofitService {
     Call<Coupon> useCoupon(@Query("serial") String serial,
                            @Query("coupon_no") String coupon_no);
     //쿠폰 사용 취소
-    @POST("/libs/client/coupon.cancel.php")
+    @POST("/libs/client/coupon.use.cancel.php")
     Call<Coupon> cancelCoupon(@Query("serial") String serial,
-                           @Query("coupon_no") String coupon_no);
+                              @Query("coupon_no") String coupon_no);
 
     //가맹점 정보 받아오기
     @GET("/libs/client/agent.search.php")

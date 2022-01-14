@@ -24,4 +24,10 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="MyAlertDialogStyle" parent="@style/Theme.AppCompat.Dialog.Alert">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+
+
 </resources>

@@ -2,8 +2,10 @@ package kr.co.pointmobile.msrdemo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -69,6 +71,12 @@ public class CancelCardActivity extends AppCompatActivity {
     public String res_origindate;
     public String res_origintime;
 
+    private String name;
+    private String companyid;
+    private String ceoname;
+    private String phone;
+    private String address;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +89,14 @@ public class CancelCardActivity extends AppCompatActivity {
 
         receipt2 = ((BaseApplication)getApplication()).getReceiptPrint();
         printer = ((BaseApplication)getApplication()).getPrinter();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("marget", Context.MODE_PRIVATE);
+
+        name = sharedPreferences.getString("name","");
+        companyid = sharedPreferences.getString("companyid","");
+        ceoname = sharedPreferences.getString("ceoname","");
+        phone = sharedPreferences.getString("phone","");
+        address = sharedPreferences.getString("address","");
 
         Button Button_use = findViewById(R.id.Button_use);
         Button_use.setOnClickListener(new View.OnClickListener() {
@@ -202,6 +218,7 @@ public class CancelCardActivity extends AppCompatActivity {
         finishAffinity();
     }
 
+
     private void makeReceiptCancel() {
         try {
 
@@ -210,10 +227,8 @@ public class CancelCardActivity extends AppCompatActivity {
             receipt2.setPreset(PRESET_W40H100);
             receipt2.addText(ExFormat.format("%-20s%20s\n", "거 래 일 시 :", res_app_date));
             receipt2.addText(ExFormat.format("%-20s%20s\n", "카 드 번 호 :", res_card_no));
-//            receipt2.addText(ExFormat.format("%-20s%20s\n", "카 드 종 류 :", res_issuer_nm));
             receipt2.addText(ExFormat.format("%-20s%20s\n", "유 효 기 간 :", "**/**"));
             receipt2.addText(ExFormat.format("%-20s%20s\n", "거 래 유 형 :", "신용취소"));
-//            receipt2.addText(ExFormat.format("%-20s%20s\n", "할 부 개 월 :", res_install_period));
             receipt2.addTextLine("----------------------------------------");
             receipt2.addText(ExFormat.format("%-20s%18s원\n", "공 급 가 액 :", res_tot_amt)); //FIXME
             receipt2.addText(ExFormat.format("%-20s%20s\n", "부  가  세  :", "0원")); //FIXME
@@ -221,11 +236,11 @@ public class CancelCardActivity extends AppCompatActivity {
             receipt2.addTextLine("----------------------------------------");
             receipt2.addText(ExFormat.format("%-20s%20s\n", "승 인 번 호 :", res_card_no));
             receipt2.addTextLine("----------------------------------------");
-            receipt2.addText(ExFormat.format("%-20s%20s\n", "가 맹 점 명 :", "해피쿠폰점")); //FIXME
-            receipt2.addText(ExFormat.format("%-20s%20s\n", "대 표 자 명 :", "홍길동")); //FIXME
-            receipt2.addText(ExFormat.format("%-20s%20s\n", "사 업 자 NO :", "000-00-0000")); //FIXME
-            receipt2.addText(ExFormat.format("%-20s%20s\n", "문 의 전 화 :", "010-0000-0000")); //FIXME
-            receipt2.addText("경기 머머시 머머구 머머로00번 길 00(머머동) 0층\n\n"); //FIXME
+            receipt2.addText(ExFormat.format("%-20s%20s\n", "가 맹 점 명 :", name)); //FIXME
+            receipt2.addText(ExFormat.format("%-20s%20s\n", "대 표 자 명 :", ceoname)); //FIXME
+            receipt2.addText(ExFormat.format("%-20s%20s\n", "사 업 자 NO :", companyid)); //FIXME
+            receipt2.addText(ExFormat.format("%-20s%20s\n", "문 의 전 화 :", phone)); //FIXME
+            receipt2.addText(ExFormat.format("%s\n\n", address)); //FIXME
             receipt2.addText("[결제대행사]\n");
             receipt2.addText("(주)온오프코리아\n");
             receipt2.addText(ExFormat.format("%s %s\n\n", "사업자번호  :", "636-88-00753"));

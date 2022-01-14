@@ -89,15 +89,15 @@
             android:textStyle="bold"
             app:backgroundTint="#41B6E6" />
 
-        <Button
-            android:id="@+id/btnMenu4"
-            android:layout_width="291dp"
-            android:layout_height="62dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="다운로드"
-            app:backgroundTint="#41B6E6"
-            android:textStyle="bold" />
+<!--        <Button-->
+<!--            android:id="@+id/btnMenu4"-->
+<!--            android:layout_width="291dp"-->
+<!--            android:layout_height="62dp"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:gravity="center"-->
+<!--            android:text="다운로드"-->
+<!--            app:backgroundTint="#41B6E6"-->
+<!--            android:textStyle="bold" />-->
 
 
     </LinearLayout>

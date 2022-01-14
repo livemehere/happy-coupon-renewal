@@ -2,7 +2,9 @@ package kr.co.pointmobile.msrdemo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.CallLog;
 import android.util.Log;
@@ -25,6 +27,8 @@ public class MargetInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marget_info);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("marget", Context.MODE_PRIVATE);
+
         // 상단 앱바 가리기
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -34,6 +38,7 @@ public class MargetInfoActivity extends AppCompatActivity {
             networkService.getMargetInfo(serial).enqueue(new Callback<Marget>() {
                 @Override
                 public void onResponse(Call<Marget> call, Response<Marget> response) {
+
                     EditText get_store_name = (EditText)findViewById(R.id.store_name);
                     EditText get_store_companyid = (EditText)findViewById(R.id.store_companyid);
                     EditText get_store_ceoname = (EditText)findViewById(R.id.store_ceoname);
@@ -43,21 +48,28 @@ public class MargetInfoActivity extends AppCompatActivity {
 
 
                     if(response.isSuccessful()){
+                        get_serial.setText(serial);
                         get_store_name.setText(response.body().name);
                         get_store_companyid.setText(response.body().companyid);
                         get_store_ceoname.setText(response.body().ceoname);
                         get_store_phone.setText(response.body().phone);
                         get_store_address.setText(response.body().address);
-                        get_serial.setText(response.body().serial);
 
-
-
+                        Log.d("data1",response.body().result_cd);
                         Log.d("data1",response.body().name);
                         Log.d("data1",response.body().companyid);
                         Log.d("data1",response.body().ceoname);
                         Log.d("data1",response.body().phone);
                         Log.d("data1",response.body().address);
-                        Log.d("data1",response.body().serial);
+
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("name",response.body().name);
+                        editor.putString("companyid",response.body().companyid);
+                        editor.putString("ceoname",response.body().ceoname);
+                        editor.putString("phone",response.body().phone);
+                        editor.putString("address",response.body().address);
+                        editor.commit();
+
                     }else{
                         Toast.makeText(getApplicationContext(), response.errorBody().toString(), Toast.LENGTH_SHORT).show();
                     }

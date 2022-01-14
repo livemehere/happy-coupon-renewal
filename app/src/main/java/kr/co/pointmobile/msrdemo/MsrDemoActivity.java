@@ -2,7 +2,9 @@ package kr.co.pointmobile.msrdemo;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -197,6 +199,12 @@ public class MsrDemoActivity extends AppCompatActivity
     public String res_fee = "";
     public String res_coupon_no = "";
 
+    private String name;
+    private String companyid;
+    private String ceoname;
+    private String phone;
+    private String address;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -208,6 +216,14 @@ public class MsrDemoActivity extends AppCompatActivity
         mClient.init();
 
         mProgress = new ProgressDialog(MsrDemoActivity.this);
+        SharedPreferences sharedPreferences = getSharedPreferences("marget", Context.MODE_PRIVATE);
+
+        name = sharedPreferences.getString("name","");
+        companyid = sharedPreferences.getString("companyid","");
+        ceoname = sharedPreferences.getString("ceoname","");
+        phone = sharedPreferences.getString("phone","");
+        address = sharedPreferences.getString("address","");
+
 
         ActionBar aBar = getSupportActionBar();
         aBar.setIcon(R.drawable.ic_launcher_foreground);
@@ -761,6 +777,10 @@ public class MsrDemoActivity extends AppCompatActivity
                                             res_fee = response.body().fee;
                                             res_coupon_no = response.body().coupon_no;
 
+                                            if(res_install_period.equals("00")){
+                                                res_install_period = "일시불";
+                                            }
+
                                         Log.d("결제완료된 쿠폰번호",res_coupon_no);
 
 //                                        ShowAsyncTask receiptTask = new ShowAsyncTask(SELECT_RECEIPT);
@@ -1207,6 +1227,9 @@ public class MsrDemoActivity extends AppCompatActivity
     }
 
     private void makeReceipt() {
+
+
+
         try {
             receipt.setPreset(PRESET_W30H100);
             receipt.addTextAlign("신용승인\n", ALIGN_CENTER);
@@ -1224,11 +1247,12 @@ public class MsrDemoActivity extends AppCompatActivity
             receipt.addTextLine("----------------------------------------");
             receipt.addText(ExFormat.format("%-20s%20s\n", "승 인 번 호 :", res_auth_no));
             receipt.addTextLine("----------------------------------------");
-            receipt.addText(ExFormat.format("%-20s%20s\n", "가 맹 점 명 :", "해피쿠폰점")); //FIXME
-            receipt.addText(ExFormat.format("%-20s%20s\n", "대 표 자 명 :", "홍길동")); //FIXME
-            receipt.addText(ExFormat.format("%-20s%20s\n", "사 업 자 NO :", "000-00-0000")); //FIXME
-            receipt.addText(ExFormat.format("%-20s%20s\n", "문 의 전 화 :", "010-0000-0000")); //FIXME
-            receipt.addText("경기 머머시 머머구 머머로00번 길 00(머머동) 0층\n\n"); //FIXME
+            receipt.addText(ExFormat.format("%-20s%20s\n", "가 맹 점 명 :", name)); //FIXME
+            receipt.addText(ExFormat.format("%-20s%20s\n", "대 표 자 명 :", ceoname)); //FIXME
+            receipt.addText(ExFormat.format("%-20s%20s\n", "사 업 자 NO :", companyid)); //FIXME
+            receipt.addText(ExFormat.format("%-20s%20s\n", "문 의 전 화 :", phone)); //FIXME
+            receipt.addText(ExFormat.format("%s\n\n", address)); //FIXME
+//            receipt.addText("경기 머머시 머머구 머머로00번 길 00(머머동) 0층\n",); //FIXME
             receipt.addText("[결제대행사]\n");
             receipt.addText("(주)온오프코리아\n");
             receipt.addText(ExFormat.format("%s %s\n\n", "사업자번호  :", "636-88-00753"));
