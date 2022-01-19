@@ -54,7 +54,9 @@ public class AdminCancelActivity extends AppCompatActivity {
     }
     // 홈 버튼 클릭시 홈화면으로 이동
     public void navToHome(View v){
-        finish();
+        Intent intent = new Intent(this,MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
     // 종료 버튼 시 모든 Activity 종료
     public void finishApp(View v){

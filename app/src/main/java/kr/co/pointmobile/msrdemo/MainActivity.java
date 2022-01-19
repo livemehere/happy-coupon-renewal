@@ -71,38 +71,8 @@ public class MainActivity extends AppCompatActivity {
         });
         button5.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                EditText et = new EditText(MainActivity.this);
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("비밀번호를 입력하세요").setView(R.layout.login);
-                builder.setPositiveButton("로그인", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        Dialog f = (Dialog) dialog;
-                        EditText get_admin_password = (EditText) f.findViewById(R.id.admin_password);
-                        String admin_password = get_admin_password.getText().toString();
-                        if(admin_password.equals("8952")){
-                            Intent intent = new Intent(v.getContext(), AdminCancelActivity.class);
-                            startActivity(intent);
-                            Toast.makeText(getApplicationContext(), "성공", Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(getApplicationContext(), "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-                builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-//                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                android.app.AlertDialog dialog = builder.create();
-                dialog.show();
-
-
-//                Toast.makeText(getApplicationContext(),"버튼이 눌러졌습니다~~.",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(v.getContext(), passwordActivity.class);
+                startActivity(intent);
             }
         });
         button6.setOnClickListener(new View.OnClickListener() {

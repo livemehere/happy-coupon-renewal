@@ -45,7 +45,7 @@
         android:layout_height="62dp"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="캐쉬적립"
+        android:text="캐시적립"
         android:textStyle="bold"
         app:backgroundTint="#41B6E6" />
 
@@ -76,6 +76,8 @@
         android:gravity="center"
         android:text="ㆍㆍㆍ"
         android:textStyle="bold"
-        app:backgroundTint="#41B6E6" />
+        app:backgroundTint="#41B6E6"
+        android:visibility="invisible"
+        />
 
 </LinearLayout>

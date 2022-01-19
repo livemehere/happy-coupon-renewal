@@ -85,7 +85,7 @@
             android:layout_height="62dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="판매점(가맹점)정보"
+            android:text="가맹점 정보 다운로드"
             android:textStyle="bold"
             app:backgroundTint="#41B6E6" />
 

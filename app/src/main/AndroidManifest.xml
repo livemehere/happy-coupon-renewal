@@ -17,9 +17,10 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_happy_round"
         android:theme="@style/AppTheme">
+        <activity android:name=".passwordActivity"></activity>
         <activity
             android:name=".ui.login.LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
         <activity android:name=".registActivity" />
         <activity android:name=".dotActivity" />
         <activity android:name=".MargetInfoActivity" />
