@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -86,6 +87,7 @@ public class MsrDemoActivity extends AppCompatActivity
 
     private static final String TAG = MsrDemoActivity.class.getSimpleName();
     private static final int SUCCESS = 0;
+
 
     //TODO: HTTP 요청시 QUERY
     private static final String QUERY = "posts";
@@ -233,7 +235,7 @@ public class MsrDemoActivity extends AppCompatActivity
         res = getResources();
 
         initActivity();
-        clearResult();
+
 
         //TODO: print
         initUIComponent();
@@ -246,29 +248,9 @@ public class MsrDemoActivity extends AppCompatActivity
             getSupportActionBar().hide();
         }
 
-        final Spinner spinner_field = (Spinner)findViewById(R.id.install_period_spinner);
-        //1번에서 생성한 field.xml의 item을 String 배열로 가져오기
-        String[] str = getResources().getStringArray(R.array.install_period_array);
-        //2번에서 생성한 spinner_item.xml과 str을 인자로 어댑터 생성.
-        final ArrayAdapter<String> adapter= new ArrayAdapter<String>(this,R.layout.install_spinner_item,str);
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinner_field.setAdapter(adapter);
+        onClickStartReading();
+        clearResult();
 
-        //spinner 이벤트 리스너
-        spinner_field.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(spinner_field.getSelectedItemPosition() > 0){
-                    //선택된 항목
-                    Log.v("알림",spinner_field.getSelectedItem().toString()+ "is selected");
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-
-        });
     }
 
     @Override
@@ -288,15 +270,7 @@ public class MsrDemoActivity extends AppCompatActivity
         super.onResume();
 
     }
-// FIXME: 이함수 키면 에러
-//    @Override
-//    protected void onDestroy()남
-//    {
-//        Lib_McrClose();
-//        isQuit = true;
-//        Log.d(TAG, "Lib_McrClosed");
-//        super.onDestroy();
-//    }
+
 
     @Override
     public void onBackPressed()
@@ -331,6 +305,8 @@ public class MsrDemoActivity extends AppCompatActivity
         showProgress(MsrDemoActivity.this, true);
         AsyncInit async = new AsyncInit();
         async.execute();
+
+
 
     }
 
@@ -588,7 +564,7 @@ public class MsrDemoActivity extends AppCompatActivity
             @Override
             public void run()
             {
-                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -701,186 +677,96 @@ public class MsrDemoActivity extends AppCompatActivity
                 }
 
 
-                // 팝업
-                // 1. 단말기번호, 카드번호, 유효기간, 할부, 금액 값 가져와서 세팅하기
-                //serial = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-
-//                EditText get_expire_date = (EditText)findViewById(R.id.expire_date);
-                Spinner get_install_period = (Spinner)findViewById(R.id.install_period_spinner);
-                EditText get_tot_amt = (EditText)findViewById(R.id.tot_amt);
-
-//                String expire_date = get_expire_date.getText().toString(); //유효기간
-                install_period = get_install_period.getSelectedItem().toString(); //할부
-                if(install_period.equals("일시불")){
-                    install_period = "00";
-                }
-                tot_amt = get_tot_amt.getText().toString();//금액
-
                 String valuesMessage = String.format("단말기번호: %s\n카드번호: %s\n유효기간: %s(YYMM)\n할부: %s (개월)\n금액: %s (원)",serial,card_no,expire_date,install_period,tot_amt);
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MsrDemoActivity.this);
-                builder.setMessage(valuesMessage).setTitle("아래의 정보로 결제합니다");
-                builder.setPositiveButton("결제", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id)
-                    {
 
-                        // 0. 카드 긁기 대기 창띄우기 + 카드 긁을때까지 대기(취소버튼있음)
-                        // 0.5 . 카드를 긁으면! 아래 실행
-                        // 1. 단말기번호, 카드번호, 유효기간, 할부, 금액 값 가져오기
-                        // 2. http 요청하기
-                        RetrofitService networkService = RetrofitFactory.create();
-                        networkService.authCard(serial,card_no,expire_date,install_period,tot_amt).enqueue(new Callback<CardAuthResult>() {
-                            @Override
-                            public void onResponse(Call<CardAuthResult> call, Response<CardAuthResult> response) {
-                                //  정상 통신 된 경우
-                                if(response.isSuccessful()){
-                                    Log.d("카드승인 결과",response.body().result_cd);
-                                    if(response.body().result_cd .equals("0000")){
-                                        // 카드 승인이 정상적으로 이루어진 경우
-                                        // TODO: 여기서 영수증 출력하면 됨 (res_ 는 리턴값들)
-//                                        res_result_cd = response.body().result_cd;
-//                                        res_result_msg = response.body().result_msg;
-//                                        res_tot_amt = response.body().tot_amt;
-//                                        res_card_no = response.body().card_no;
-//                                        res_expire_date = response.body().expire_date;
-//                                        res_install_period = response.body().install_period;
-//                                        res_transeq = response.body().transeq;
-//                                        res_auth_no = response.body().auth_no;
-//                                        res_coupon_no = response.body().coupon_no;
-//                                        res_app_date = response.body().app_date;
-//                                        res_iss_cd = response.body().iss_cd;
-//                                        res_iss_nm = response.body().iss_nm;
-
-                                            res_serial = response.body().serial;
-                                            res_card_no = response.body().card_no;
-                                            res_expire_date = response.body().expire_date;
-                                            res_install_period = response.body().install_period;
-                                            res_tot_amt = response.body().tot_amt;
-                                            res_agentid = response.body().agentid;
-                                            res_onfftid = response.body().onfftid;
-                                            res_cert_type = response.body().cert_type;
-                                            res_card_user_type = response.body().card_user_type;
-                                            res_user_nm = response.body().user_nm;
-                                            res_user_phone2 = response.body().user_phone2;
-                                            res_order_no = response.body().order_no;
-                                            res_transeq = response.body().transeq;
-                                            res_result_cd = response.body().result_cd;
-                                            res_result_msg = response.body().result_msg;
-                                            res_app_date = response.body().app_date;
-                                            res_app_dt = response.body().app_dt;
-                                            res_app_tm = response.body().app_tm;
-                                            res_auth_no = response.body().auth_no;
-                                            res_issuer_nm = response.body().issuer_nm;
-                                            res_payment = response.body().payment;
-                                            res_regdate = response.body().regdate;
-                                            res_regtime = response.body().regtime;
-                                            res_fee = response.body().fee;
-                                            res_coupon_no = response.body().coupon_no;
-
-                                            if(res_install_period.equals("00")){
-                                                res_install_period = "일시불";
-                                            }
-
-                                        Log.d("결제완료된 쿠폰번호",res_coupon_no);
-
-//                                        ShowAsyncTask receiptTask = new ShowAsyncTask(SELECT_RECEIPT);
-//                                        receiptTask.execute();
-
-                                        makeReceipt();
-
-
-                                        Toast.makeText(getApplicationContext(), response.body().result_msg, Toast.LENGTH_SHORT).show();
-                                        //----- 결과값 출력 팝
-                                        String valuesMessage = String.format("결과코드: %s\n결과메세지: %s\n승인금액: %s\n카드번호: %s\n유효기간: %s\n할부: %s\n결제일련번호: %s\n승인번호: %s\n쿠폰번호: %s\n결제일시: %s\n신용카드 코드: %s\n신용카드명: %s",
-                                                res_result_cd,res_result_msg,res_tot_amt,res_card_no,res_expire_date,res_install_period,res_transeq,res_auth_no,res_coupon_no,res_app_date,res_card_no,res_issuer_nm);
-                                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MsrDemoActivity.this);
-                                        builder.setMessage(valuesMessage).setTitle("영수증을 출력하시겠습니까?");
-                                        builder.setPositiveButton("출력", new DialogInterface.OnClickListener(){
-                                            // 레시피 생성
+                Intent intent = new Intent(getBaseContext(),MoneyActivity.class);
+                intent.putExtra("serial",serial);
+                intent.putExtra("card_no",card_no);
+                intent.putExtra("expire_date",expire_date);
+                startActivity(intent);
 //
-
-
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int id)
-                                            {
-
-                                                //TODO: 영수증출력하기
-//                                                byte grayVal = Byte.valueOf(grayValText);
-                                                //프린트 시작
-//                                                PrintAsyncTask printTask = new PrintAsyncTask(receipt, grayVal);
-//                                                printTask.execute();
-
-                                                if (receipt != null) {
-                                                    int ret = printer.setGrayValue(3);
-                                                    if (ret == BMP_PRINT_COMMON_SUCCESS || ret == ERROR_NO_FONT_LIBRARY) {
-                                                        ret = printer.print(receipt);
-                                                    }
-
-                                                }
-
-
-
-                                                Toast.makeText(getApplicationContext(), "영수증을 출력합니다", Toast.LENGTH_SHORT).show();
-                                                finish();
-                                            }
-                                        });
-
-                                        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener(){
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int id)
-                                            {
-                                                //레시피 초기화
-//                                                ShowAsyncTask resetTask = new ShowAsyncTask(SELECT_RESET);
-//                                                resetTask.execute();
-                                                Toast.makeText(getApplicationContext(), "영수증을 출력하지 않습니다", Toast.LENGTH_SHORT).show();
-                                                finish();
-                                            }
-                                        });
-                                        android.app.AlertDialog dialog = builder.create();
-                                        dialog.show();
-                                        // -----
-                                    }else{
-                                        // TODO: 카드 승인이 실패한 경우
-                                        Toast.makeText(getApplicationContext(), response.body().result_msg, Toast.LENGTH_SHORT).show();
-                                    }
-
-                            }}
-
-                            @Override
-                            public void onFailure(Call<CardAuthResult> call, Throwable t) {
-//                                Toast.makeText(getApplicationContext(), call.toString(), Toast.LENGTH_SHORT).show();
-
-                                Toast.makeText(getApplicationContext(), call.request().toString(), Toast.LENGTH_SHORT).show();
-
-                            }
-                        });
-
-
-                        // 3. 결과값받아와서 성공이면 성공 tost 띄우고, 프린트하기
-//                        Toast.makeText(getApplicationContext(), "결제되었습니다", Toast.LENGTH_SHORT).show();
-                        // + 결제가 완료되면 홈으로
-                        // 4. 실패하거나, 카드긁기 취소하면 실패 tost 띄우기
-//                        finish();
-                    }
-                });
-
-                builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        card_no="";
-                        expire_date="";
-                        install_period="";
-                        tot_amt="";
-
-                        Toast.makeText(getApplicationContext(), "취소되었습니다", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                android.app.AlertDialog dialog = builder.create();
-                dialog.show();
-
-//                TextView myResult = (TextView) findViewById(R.id.textViewMsrTrack1);
-//                myResult.setText(mResultTextView);
+////                TODO:-----start
+//                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MsrDemoActivity.this);
+//                builder.setMessage(valuesMessage).setTitle("아래의 정보로 결제합니다");
+//                builder.setPositiveButton("결제", new DialogInterface.OnClickListener(){
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int id)
+//                    {
+//
+//                        // 0. 카드 긁기 대기 창띄우기 + 카드 긁을때까지 대기(취소버튼있음)
+//                        // 0.5 . 카드를 긁으면! 아래 실행
+//                        // 1. 단말기번호, 카드번호, 유효기간, 할부, 금액 값 가져오기
+//                        // 2. http 요청하기
+//                        RetrofitService networkService = RetrofitFactory.create();
+//                        networkService.authCard(serial,card_no,expire_date,install_period,tot_amt).enqueue(new Callback<CardAuthResult>() {
+//                            @Override
+//                            public void onResponse(Call<CardAuthResult> call, Response<CardAuthResult> response) {
+//                                //  정상 통신 된 경우
+//                                if(response.isSuccessful()){
+//                                    Log.d("카드승인 결과",response.body().result_cd);
+//                                    if(response.body().result_cd .equals("0000")){
+//                                        // 카드 승인이 정상적으로 이루어진 경우
+//                                        // TODO: 여기서 영수증 출력하면 됨 (res_ 는 리턴값들)
+//                                            res_serial = response.body().serial;
+//                                            res_card_no = response.body().card_no;
+//                                            res_expire_date = response.body().expire_date;
+//                                            res_install_period = response.body().install_period;
+//                                            res_tot_amt = response.body().tot_amt;
+//                                            res_agentid = response.body().agentid;
+//                                            res_onfftid = response.body().onfftid;
+//                                            res_cert_type = response.body().cert_type;
+//                                            res_card_user_type = response.body().card_user_type;
+//                                            res_user_nm = response.body().user_nm;
+//                                            res_user_phone2 = response.body().user_phone2;
+//                                            res_order_no = response.body().order_no;
+//                                            res_transeq = response.body().transeq;
+//                                            res_result_cd = response.body().result_cd;
+//                                            res_result_msg = response.body().result_msg;
+//                                            res_app_date = response.body().app_date;
+//                                            res_app_dt = response.body().app_dt;
+//                                            res_app_tm = response.body().app_tm;
+//                                            res_auth_no = response.body().auth_no;
+//                                            res_issuer_nm = response.body().issuer_nm;
+//                                            res_payment = response.body().payment;
+//                                            res_regdate = response.body().regdate;
+//                                            res_regtime = response.body().regtime;
+//                                            res_fee = response.body().fee;
+//                                            res_coupon_no = response.body().coupon_no;
+//
+//                                            if(res_install_period.equals("00")){
+//                                                res_install_period = "일시불";
+//                                            }
+//
+//                                        Log.d("결제완료된 쿠폰번호",res_coupon_no);
+//                                        makeReceipt();
+//                                        if (receipt != null) {
+//                                            int ret = printer.setGrayValue(3);
+//                                            if (ret == BMP_PRINT_COMMON_SUCCESS || ret == ERROR_NO_FONT_LIBRARY) {
+//                                                ret = printer.print(receipt);
+//                                            }
+//
+//                                        }
+//                                        finish();
+//
+//
+//                                    }else{
+//                                        // TODO: 카드 승인이 실패한 경우
+//                                        Toast.makeText(getApplicationContext(), response.body().result_msg, Toast.LENGTH_SHORT).show();
+//                                    }
+//
+//                            }}
+//
+//                            @Override
+//                            public void onFailure(Call<CardAuthResult> call, Throwable t) {
+////                                Toast.makeText(getApplicationContext(), call.toString(), Toast.LENGTH_SHORT).show();
+//
+//                                Toast.makeText(getApplicationContext(), call.request().toString(), Toast.LENGTH_SHORT).show();
+//
+//                            }
+//                        });
+//
+//                    }
+//                });
 
             }
         });
@@ -999,7 +885,7 @@ public class MsrDemoActivity extends AppCompatActivity
             {
                 clearResult();
                 clearTextView();
-                Toast.makeText(getApplicationContext(), getString(R.string.data_clear_success_msg), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), getString(R.string.data_clear_success_msg), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -1008,7 +894,7 @@ public class MsrDemoActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                Toast.makeText(getApplicationContext(), getString(R.string.data_clear_cancel_msg), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), getString(R.string.data_clear_cancel_msg), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -1103,36 +989,6 @@ public class MsrDemoActivity extends AppCompatActivity
     //TODO: print
     // <2. Init>
     private void initUIComponent() {
-
-
-//        grayValText = "";
-//        printBtn = findViewById(R.id.)
-//        printBtn.setOnClickListener(buttonOnClickListener);
-//        checkBoxBoldStyle = false;
-
-//        grayPlusBtn = findViewById(R.id.gray_val_plus);
-//        grayPlusBtn.setOnClickListener(buttonOnClickListener);
-//        grayMinusBtn = findViewById(R.id.gray_val_minus);
-//        grayMinusBtn.setOnClickListener(buttonOnClickListener);
-
-//        textMethodBtn = findViewById(R.id.textMethodBtn);
-//        textMethodBtn.setOnClickListener(buttonOnClickListener);
-//        presetBtn = findViewById(R.id.presetBtn);
-//        presetBtn.setOnClickListener(buttonOnClickListener);
-//        receiptBtn = findViewById(R.id.receiptBtn);
-//        receiptBtn.setOnClickListener(buttonOnClickListener);
-//        resetBtn = findViewById(R.id.resetBtn);
-//        resetBtn.setOnClickListener(buttonOnClickListener);
-
-//        imageView = findViewById(R.id.imageView);
-//        scrollView = findViewById(R.id.scrollView);
-//        scrollView.setHorizontalScrollBarEnabled(true);
-//        scrollView.setVerticalScrollBarEnabled(true);
-
-//        inprogressDialog = new ProgressDialog(this, R.style.ThemeCustomProgressDialog);
-//        inprogressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-//        inprogressDialog.setCancelable(false);
-//        inprogressDialog.setCanceledOnTouchOutside(false);
     }
 
     // </2. Init>
@@ -1174,7 +1030,7 @@ public class MsrDemoActivity extends AppCompatActivity
             inprogressDialog.dismiss();
 
             String result = printer.getReturnMessage(res);
-            Toast.makeText(MsrDemoActivity.this, result, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(MsrDemoActivity.this, result, Toast.LENGTH_SHORT).show();
         }
     }
     // </3. Print>
@@ -1231,50 +1087,6 @@ public class MsrDemoActivity extends AppCompatActivity
 
 
         try {
-//            receipt.setPreset(PRESET_W30H100);
-//            receipt.addTextAlign("신용승인\n", ALIGN_CENTER);
-//            receipt.setPreset(PRESET_W40H100);
-//            receipt.addText(ExFormat.format("%-20s%20s\n", "거 래 일 시 :", res_app_date));
-//            receipt.addText(ExFormat.format("%-20s%20s\n", "카 드 번 호 :", res_card_no));
-//            receipt.addText(ExFormat.format("%-20s%20s\n", "카 드 종 류 :", res_issuer_nm));
-//            receipt.addText(ExFormat.format("%-20s%20s\n", "유 효 기 간 :", "**/**"));
-//            receipt.addText(ExFormat.format("%-20s%20s\n", "거 래 유 형 :", "신용승인")); //FIXME
-//            receipt.addText(ExFormat.format("%-20s%20s\n", "할 부 개 월 :", res_install_period));
-//            receipt.addTextLine("----------------------------------------");
-//            receipt.addText(ExFormat.format("%-20s%18s원\n", "공 급 가 액 :", res_tot_amt)); //FIXME
-//            receipt.addText(ExFormat.format("%-20s%20s\n", "부  가  세  :", "0원")); //FIXME
-//            receipt.addText(ExFormat.format("%-20s%18s원\n", "합       계 :", res_tot_amt));
-//            receipt.addTextLine("----------------------------------------");
-//            receipt.addText(ExFormat.format("%-20s%20s\n", "승 인 번 호 :", res_auth_no));
-//            receipt.addTextLine("----------------------------------------");
-//            receipt.addText(ExFormat.format("%-20s%20s\n", "가 맹 점 명 :", name)); //FIXME
-//            receipt.addText(ExFormat.format("%-20s%20s\n", "대 표 자 명 :", ceoname)); //FIXME
-//            receipt.addText(ExFormat.format("%-20s%20s\n", "사 업 자 NO :", companyid)); //FIXME
-//            receipt.addText(ExFormat.format("%-20s%20s\n", "문 의 전 화 :", phone)); //FIXME
-//            receipt.addText(ExFormat.format("%s\n\n", address)); //FIXME
-////            receipt.addText("경기 머머시 머머구 머머로00번 길 00(머머동) 0층\n",); //FIXME
-//            receipt.addText("[결제대행사]\n");
-//            receipt.addText("(주)온오프코리아\n");
-//            receipt.addText(ExFormat.format("%s %s\n\n", "사업자번호  :", "636-88-00753"));
-//            receipt.addText("[쿠폰발행사]\n");
-//            receipt.addText("(주)해피페이\n");
-//            receipt.addText(ExFormat.format("%s %s\n", "사업자번호  :", "140-81-49182"));
-//            receipt.addText(ExFormat.format("%s %s\n\n\n", "문 의 전 화 :", "1600-8952"));
-//            receipt.addText(ExFormat.format("%-20s%20s\n", "", "구매상품내역"));
-//            receipt.addTextLine("----------------------------------------");
-//            receipt.addTextAlign("HAPPY COUPON\n", ALIGN_CENTER);
-//            receipt.addTextLine("----------------------------------------");
-//            receipt.addText(ExFormat.format("%-20s%18s원\n", "쿠 폰 금 액 :", res_tot_amt));
-//            receipt.addText(ExFormat.format("%-20s%20s\n", "쿠 폰 번 호  :", res_coupon_no));
-//            receipt.addTextLine("----------------------------------------");
-//            receipt.addText("http://m.happycoupon.co.kr\n");
-//            receipt.addText("에서 사용하신 쿠폰번호로 \n");
-//            receipt.addText("해피캐시를 적립하신 후\n");
-//            receipt.addText("리커버샵(www.recovershop.co.kr\n");
-//            receipt.addText("에서 편리하게 사용하세요\n");
-//            receipt.addText("(서명/SIGNATURE)\n");
-
-
             receipt.setPreset(PRESET_W20H100);
             receipt.addTextAlign("신용승인\n", ALIGN_CENTER);
             receipt.setPreset(PRESET_W30H100);
@@ -1318,64 +1130,6 @@ public class MsrDemoActivity extends AppCompatActivity
             receipt.addText("에서 편리하게 사용하세요\n");
             receipt.addText("(서명/SIGNATURE)\n");
 
-//            receipt.addText(ExFormat.format("%-30s%10s\n", "123 - 45 - 67890", "가      산"));
-//            receipt.addText(ExFormat.format("%-20s%20s\n", "가산동 디지털로", "T.02)123-4567"));
-//            receipt.addText("홈페이지 http://www.pointmobile.com\n\n");
-//            receipt.setPreset(PRESET_W45H150);
-//            receipt.addText(ExFormat.format("%-25s%20s\n", "구매 2020/12/24/13.36", "거래번호 : 1234-5678"));
-//
-//            // 영수 내역
-//            receipt.addLine();
-//            receipt.setPreset(PRESET_W40H100);
-//            receipt.addText(ExFormat.format("%-23s%-5s%12s\n", "상 품 명", "수량", "금 액"));
-//            receipt.addLine();
-//            receipt.addText(ExFormat.format("%-23s%5d%12d\n", ExFormat.abb("* 브랜드 기타스포츠화", 23), 1, 39000));
-//            receipt.addText(ExFormat.format("  %s\n", "123456 7890"));
-//            receipt.addText(ExFormat.format("%-23s%5d%12d\n", ExFormat.abb("겨울철 여성의류 다운점퍼", 23), 1, 79000));
-//            receipt.addText(ExFormat.format("  %s\n", "123456 7890"));
-//            receipt.addText(ExFormat.format("%-23s%5d%12d\n", ExFormat.abb("Book Sample : 책 샘플 제목 소설책", 23), 1, 27300));
-//            receipt.addText(ExFormat.format("  %s\n\n", "123456 7890"));
-//
-//            receipt.setPreset(PRESET_W40H100);
-//            receipt.addText(ExFormat.format("%30s%10d\n", "과세 물품가액", 96637));
-//            receipt.addText(ExFormat.format("%30s%10d\n\n", "부    가   세", 9663));
-//
-//            receipt.setPreset(PRESET_W40H200);
-//            receipt.addText(ExFormat.format("%-20s%20d\n", "합             계", 106300));
-//            receipt.addText(ExFormat.format("%-20s%20d\n", "카  드   결 제 액", 45300));
-//            receipt.setPreset(PRESET_W40H100);
-//            receipt.addText(ExFormat.format("%-20s%20s\n", "샘플카드", "1234567XXXX1234"));
-//            receipt.addText(ExFormat.format("%-14s%-18s%8s\n", "승인번호", "12345678", "[승인]"));
-//
-//            receipt.getParam().setFakeBoldText(true);
-//            receipt.addText(ExFormat.format("  %-18s%-14s%6s\n", "할부기간[일시불]", "카드청구액", "45300"));
-//            receipt.getParam().setFakeBoldText(false);
-//
-//            receipt.addText(ExFormat.format("%-12s%-20s%8d\n", "캐시비결제", "123456789XXXX1234", 61000));
-//            receipt.addText(ExFormat.format("%-12s%28d\n", "캐시비잔액", 0));
-//            receipt.addText(ExFormat.format("%-12s%28s\n\n", "인증번호", "ABCDEFGH"));
-//
-//            // 포인트 내역
-//            receipt.addTextLine("----------------------------------------");
-//            receipt.addText(ExFormat.format("%-20s%20s\n", "샘플회원카드번호", "1234567XXXX1234"));
-//            receipt.addText(ExFormat.format("%-20s%20s\n", "금 회 적 립 포인트", "286P"));
-//            receipt.addText(ExFormat.format("%-20s%20s\n", "잔  여  포  인  트", "1800P"));
-//            receipt.addText(ExFormat.format("%-20s%20s\n", "사 용 가 능 포인트", "1000P"));
-//            receipt.addTextLine("----------------------------------------");
-//
-//            // 하단
-//            receipt.addText("교환 환불은 구입 후 7일 이내에 영수증을 반드시 제시하셔야 가능하며 환불 시 사은품을 반납하셔야 합니다.\n\n");
-//
-//            receipt.addText(ExFormat.format("%s%s\n", "계산담당자 : ", "홍길동"));
-//            receipt.addText(ExFormat.format("%s%s", "판매책임자 : ", "홍길동"));
-//            receipt.addTextAlign("☎ 010-1234-5678\n", ALIGN_RIGHT);
-//            receipt.addFeed();
-//
-//            // 바코드
-//            String code = "202012251234567812345678";
-//            receipt.addBarcodeFitWidth(code);
-//            receipt.setPreset(PRESET_W40H150);
-//            receipt.addTextAlign(code + '\n', ALIGN_CENTER);
         } catch (ReceiptPrint.BitmapOutOfRangeException e) {
             e.printStackTrace();
         }

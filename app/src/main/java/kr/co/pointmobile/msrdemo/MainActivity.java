@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), MsrDemoActivity.class);
+//                Intent intent = new Intent(v.getContext(), MoneyActivity.class);
                 startActivity(intent);
 //                Toast.makeText(getApplicationContext(),"버튼이 눌러졌습니다~~.",Toast.LENGTH_SHORT).show();
             }

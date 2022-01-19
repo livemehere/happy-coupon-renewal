@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    tools:context=".CancelCouponActivity">
+    tools:context=".MoneyActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -62,7 +62,7 @@
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="쿠폰 사용 취소"
+        android:text="구매하실 금액을 입력하세요"
         android:gravity="center"
         android:textSize="20dp"
         android:textStyle="bold"
@@ -71,10 +71,10 @@
         />
 
     <TextView
-        android:id="@+id/coupon_no"
+        android:id="@+id/total"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="쿠폰번호를 입력하세요"
+        android:hint="금액을 입력하세요"
         android:gravity="center"
         android:textSize="30dp"
         android:background="@color/white"
@@ -184,7 +184,6 @@
             android:textColor="@color/white"
             />
         <Button
-            android:id="@+id/Button_cancel"
             android:text="확인"
             android:onClick="clickPad"
             android:layout_width="70dp"

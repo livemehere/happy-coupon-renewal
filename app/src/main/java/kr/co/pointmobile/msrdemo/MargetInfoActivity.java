@@ -71,13 +71,13 @@ public class MargetInfoActivity extends AppCompatActivity {
                         editor.commit();
 
                     }else{
-                        Toast.makeText(getApplicationContext(), response.errorBody().toString(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), response.errorBody().toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<Marget> call, Throwable t) {
-                    Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
                 }
             });
         }catch (Exception e) {

@@ -90,7 +90,7 @@ public class registActivity extends AppCompatActivity {
                 editor.putString("password_check",password_check);
                 editor.commit();
 
-                Toast.makeText(getApplicationContext(), "등록되었습니다", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "등록되었습니다", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

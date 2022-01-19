@@ -87,8 +87,8 @@
     <string name="log_track3">track3 = [%1$d/%2$s]</string>
 
     <!--Toast Msg-->
-    <string name="msr_open_error">Lib_MsrOpen error</string>
-    <string name="swipe_ms_card">Swipe the MS card!</string>
+    <string name="msr_open_error">리더기 에러, 홈화면으로 이동 후 재시도 하세요</string>
+    <string name="swipe_ms_card">MS카드를 슬라이드 하세요</string>
 
     <string name="initializing">Initializing...</string>
 
