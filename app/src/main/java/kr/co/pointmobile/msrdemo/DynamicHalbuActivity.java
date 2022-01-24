@@ -139,7 +139,13 @@ public class DynamicHalbuActivity extends AppCompatActivity {
 
         // 숫자를 누를겨우
         if(!targetText.equals("확인") && !targetText.equals("X")){
-            install_period +=targetText;
+            //할부개월 은 3자리를 넘길 수 없다
+            // 첫숫자는 그냥 통과
+            if(install_period.length() == 0){
+                install_period +=targetText;
+            }else if(install_period.length() == 1 && install_period.equals("1") &&(targetText.equals("0") | targetText.equals("1") | targetText.equals("2"))){ // 두번쨰 숫자는 0,1,2 이면 통과
+                 install_period +=targetText;
+            }
 
         }else if(targetText.equals("X")){
             if(install_period.length() >0){
@@ -231,6 +237,8 @@ public class DynamicHalbuActivity extends AppCompatActivity {
 //                Toast.makeText(getApplicationContext(), "할부를 적어주세요", Toast.LENGTH_SHORT).show();
             }
         }
+
+
         installTextView.setText(install_period);
 
         Log.d("serial",serial);

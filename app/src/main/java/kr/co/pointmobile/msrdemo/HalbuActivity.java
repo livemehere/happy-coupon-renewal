@@ -139,6 +139,8 @@ public class HalbuActivity extends AppCompatActivity {
 
         if(targetText.equals("일시불")){
             install_period = "00";
+        }else if(targetText.equals("2개월")){
+            install_period = "02";
         }else if(targetText.equals("3개월")){
             install_period = "03";
         }else if(targetText.equals("4개월")){

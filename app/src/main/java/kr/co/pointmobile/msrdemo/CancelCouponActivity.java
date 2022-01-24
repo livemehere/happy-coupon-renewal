@@ -72,7 +72,7 @@ public class CancelCouponActivity extends AppCompatActivity {
                                 String res_result_msg = response.body().result_msg;
 
 //                                Toast.makeText(getApplicationContext(), response.body().result_msg, Toast.LENGTH_SHORT).show();
-
+                                finish();
 
 
 

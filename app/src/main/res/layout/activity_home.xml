@@ -17,67 +17,59 @@
         android:layout_marginTop="52dp"
         app:srcCompat="@drawable/logo" />
 
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="2"
+        android:layout_marginTop="30dp"
+        android:useDefaultMargins="true"
+        >
     <Button
         android:id="@+id/btnMenu1"
-        android:layout_width="291dp"
-        android:layout_height="63dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_height="150dp"
+        android:layout_gravity="fill"
+        android:layout_columnWeight="1"
         android:gravity="center"
         android:text="해피쿠폰 구매"
         android:textStyle="bold"
-        app:backgroundTint="#41B6E6" />
+        app:backgroundTint="#41B6E6"
+        android:textSize="20dp"
+
+        />
 
     <Button
         android:id="@+id/btnMenu2"
-        android:layout_width="291dp"
-        android:layout_height="64dp"
-        android:layout_gravity="center"
+        android:layout_height="150dp"
         android:gravity="center"
         android:text="해피쿠폰 사용"
         android:textStyle="bold"
         app:backgroundTint="#41B6E6"
+        android:layout_gravity="fill"
+        android:layout_columnWeight="1"
+        android:textSize="20dp"
          />
 
     <Button
-        android:id="@+id/btnMenu3"
-        android:layout_width="291dp"
-        android:layout_height="62dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="캐시적립"
-        android:textStyle="bold"
-        app:backgroundTint="#41B6E6" />
-
-    <Button
         android:id="@+id/btnMenu4"
-        android:layout_width="291dp"
-        android:layout_height="62dp"
-        android:layout_gravity="center"
+        android:layout_height="150dp"
+        android:layout_gravity="fill"
+        android:layout_columnWeight="1"
         android:gravity="center"
         android:text="거래내역"
         app:backgroundTint="#41B6E6"
+        android:textSize="20dp"
         android:textStyle="bold" />
 
     <Button
         android:id="@+id/btnMenu5"
-        android:layout_width="291dp"
-        android:layout_height="64dp"
-        android:layout_gravity="center"
+        android:layout_height="150dp"
+        android:layout_gravity="fill"
+        android:layout_columnWeight="1"
         android:gravity="center"
         android:text="Admin | 취소메뉴"
         android:textStyle="bold"
+        android:textSize="15dp"
         app:backgroundTint="#41B6E6" />
-    <Button
-        android:id="@+id/btnMenu6"
-        android:layout_width="291dp"
-        android:layout_height="64dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="ㆍㆍㆍ"
-        android:textStyle="bold"
-        app:backgroundTint="#41B6E6"
-        android:visibility="invisible"
-        />
-
+    </GridLayout>
 </LinearLayout>

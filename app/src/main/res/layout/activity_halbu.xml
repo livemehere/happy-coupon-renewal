@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:columnCount="2"
         android:rowCount="3"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:useDefaultMargins="true"
         >
 
@@ -91,7 +91,7 @@
             />
 
         <Button
-            android:text="3개월"
+            android:text="2개월"
             android:onClick="clickPad"
             android:textSize="30dp"
             android:layout_gravity="fill"
@@ -100,7 +100,7 @@
             android:layout_columnWeight="1"
             />
         <Button
-            android:text="4개월"
+            android:text="3개월"
             android:onClick="clickPad"
             android:textSize="30dp"
             android:layout_height="70dp"
@@ -111,9 +111,19 @@
             />
 
         <Button
+            android:text="4개월"
+            android:onClick="clickPad"
+            android:textSize="30dp"
+            android:layout_gravity="fill"
+            android:background="@color/primary"
+            android:textColor="@color/white"
+            android:layout_columnWeight="1"
+            />
+        <Button
             android:text="5개월"
             android:onClick="clickPad"
             android:textSize="30dp"
+            android:layout_height="70dp"
             android:layout_gravity="fill"
             android:background="@color/primary"
             android:textColor="@color/white"
@@ -123,13 +133,11 @@
             android:text="6개월"
             android:onClick="clickPad"
             android:textSize="30dp"
-            android:layout_height="70dp"
             android:layout_gravity="fill"
             android:background="@color/primary"
             android:textColor="@color/white"
             android:layout_columnWeight="1"
             />
-
         <Button
             android:text="직접입력"
             android:onClick="clickPad"
@@ -137,11 +145,12 @@
             android:layout_gravity="fill"
             android:background="@color/primary"
             android:textColor="@color/white"
-            android:layout_columnWeight="1"
+            android:padding="20dp"
+            android:layout_columnSpan="2"
             />
 
-
     </GridLayout>
+
 
 
 </LinearLayout>
