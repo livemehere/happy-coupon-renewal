@@ -44,6 +44,9 @@ public class CancelCouponActivity extends AppCompatActivity {
 
         // 숫자를 누를겨우
         if(!targetText.equals("확인") && !targetText.equals("X")){
+            if(coupon_no.length() >= 10){
+                return;
+            }
             coupon_no +=targetText;
 
         }else if(targetText.equals("X")){

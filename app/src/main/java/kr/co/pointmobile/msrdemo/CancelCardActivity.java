@@ -73,6 +73,9 @@ public class CancelCardActivity extends AppCompatActivity {
     public String res_parentid;
     public String res_origindate;
     public String res_origintime;
+    public String res_auth_no;
+    public String res_install_period;
+    public String res_iss_nm;
 
     private String name;
     private String companyid;
@@ -121,19 +124,25 @@ public class CancelCardActivity extends AppCompatActivity {
     private void makeReceiptCancel() {
         try {
 
+
+
+
+
             receipt2.setPreset(PRESET_W20H100);
             receipt2.addTextAlign("신용취소\n", ALIGN_CENTER);
             receipt2.setPreset(PRESET_W30H100);
             receipt2.addText(ExFormat.format("%-15s%15s\n", "거 래 일 시 :", res_app_date));
             receipt2.addText(ExFormat.format("%-13s%17s\n", "카 드 번 호 :", res_card_no));
+            receipt2.addText(ExFormat.format("%-15s%15s\n", "카 드 종 류 :", res_iss_nm));
             receipt2.addText(ExFormat.format("%-15s%15s\n", "유 효 기 간 :", "**/**"));
             receipt2.addText(ExFormat.format("%-15s%15s\n", "거 래 유 형 :", "신용취소"));
+            receipt2.addText(ExFormat.format("%-14s%16s\n", "할 부 개 월 :", res_install_period));
             receipt2.addTextLine("------------------------------");
             receipt2.addText(ExFormat.format("%-15s%13s원\n", "공 급 가 액 :", res_tot_amt)); //FIXME
             receipt2.addText(ExFormat.format("%-15s%15s\n", "부  가  세  :", "0원")); //FIXME
             receipt2.addText(ExFormat.format("%-15s%13s원\n", "합       계 :", res_tot_amt));
             receipt2.addTextLine("------------------------------");
-            receipt2.addText(ExFormat.format("%-15s%15s\n", "승 인 번 호 :", res_card_no));
+            receipt2.addText(ExFormat.format("%-15s%15s\n", "승 인 번 호 :", res_auth_no));
             receipt2.addTextLine("------------------------------");
             receipt2.addText(ExFormat.format("%-15s%15s\n", "가 맹 점 명 :", name)); //FIXME
             receipt2.addText(ExFormat.format("%-15s%15s\n", "대 표 자 명 :", ceoname)); //FIXME
@@ -154,11 +163,11 @@ public class CancelCardActivity extends AppCompatActivity {
             receipt2.addText(ExFormat.format("%-15s%13s원\n", "쿠 폰 금 액 :", res_tot_amt));
             receipt2.addText(ExFormat.format("%-15s%15s\n", "쿠 폰 번 호  :", coupon_no));
             receipt2.addTextLine("------------------------------");
-            receipt2.addText("http://m.happycoupon.co.kr\n");
-            receipt2.addText("에서 사용하신 쿠폰번호로 \n");
-            receipt2.addText("해피캐시를 적립하신 후\n");
+//            receipt2.addText("http://m.happycoupon.co.kr\n");
+            receipt2.addText("사용하신 쿠폰번호로 \n");
+//            receipt2.addText("해피캐시를 적립하신 후\n");
             receipt2.addText("리커버샵(www.recovershop.co.kr\n");
-            receipt2.addText("에서 편리하게 사용하세요\n");
+            receipt2.addText("에서 포인트 등록 후 편리하게 사용하세요\n");
             receipt2.addText("(서명/SIGNATURE)\n");
 
         } catch (ReceiptPrint.BitmapOutOfRangeException e) {
@@ -173,6 +182,9 @@ public class CancelCardActivity extends AppCompatActivity {
 
         // 숫자를 누를겨우
         if (!targetText.equals("확인") && !targetText.equals("X")) {
+            if(coupon_no.length() >= 10){
+                return;
+            }
             coupon_no += targetText;
             get_coupon_no.setText(coupon_no);
 
@@ -220,6 +232,13 @@ public class CancelCardActivity extends AppCompatActivity {
                                 res_parentid = response.body().parentid;
                                 res_origindate = response.body().origindate;
                                 res_origintime = response.body().origintime;
+                                res_auth_no = response.body().auth_no;
+                                res_install_period = response.body().install_period;
+                                res_iss_nm = response.body().iss_nm;
+
+                                if(res_install_period.equals("00")){
+                                    res_install_period = "일시불";
+                                }
 
                                 makeReceiptCancel(); //TODO: 영수증 틀 만들기
 

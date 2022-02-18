@@ -214,42 +214,48 @@ public class MsrDemoActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mClient = MessengerClient.getInstance(getApplicationContext());
-        mClient.init();
 
-        mProgress = new ProgressDialog(MsrDemoActivity.this);
-        SharedPreferences sharedPreferences = getSharedPreferences("marget", Context.MODE_PRIVATE);
+            mClient = MessengerClient.getInstance(getApplicationContext());
+            mClient.init();
 
-        name = sharedPreferences.getString("name","");
-        companyid = sharedPreferences.getString("companyid","");
-        ceoname = sharedPreferences.getString("ceoname","");
-        phone = sharedPreferences.getString("phone","");
-        address = sharedPreferences.getString("address","");
+            mProgress = new ProgressDialog(MsrDemoActivity.this);
+            SharedPreferences sharedPreferences = getSharedPreferences("marget", Context.MODE_PRIVATE);
 
-
-        ActionBar aBar = getSupportActionBar();
-        aBar.setIcon(R.drawable.ic_launcher_foreground);
-        aBar.setDisplayUseLogoEnabled(true);
-        aBar.setDisplayShowHomeEnabled(true);
-
-        res = getResources();
-
-        initActivity();
+            name = sharedPreferences.getString("name","");
+            companyid = sharedPreferences.getString("companyid","");
+            ceoname = sharedPreferences.getString("ceoname","");
+            phone = sharedPreferences.getString("phone","");
+            address = sharedPreferences.getString("address","");
 
 
-        //TODO: print
-        initUIComponent();
+            ActionBar aBar = getSupportActionBar();
+            aBar.setIcon(R.drawable.ic_launcher_foreground);
+            aBar.setDisplayUseLogoEnabled(true);
+            aBar.setDisplayShowHomeEnabled(true);
 
-        receipt = ((BaseApplication)getApplication()).getReceiptPrint();
-        printer = ((BaseApplication)getApplication()).getPrinter();
+            res = getResources();
+
+            initActivity();
+
+
+            //TODO: print
+            initUIComponent();
+        try{
+            receipt = ((BaseApplication)getApplication()).getReceiptPrint();
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(), e.getLocalizedMessage() , Toast.LENGTH_SHORT).show();
+        }
+            printer = ((BaseApplication)getApplication()).getPrinter();
 
 //         상단 앱바 가리기
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().hide();
+            }
 
-        onClickStartReading();
-        clearResult();
+            onClickStartReading();
+            clearResult();
+
+
 
     }
 

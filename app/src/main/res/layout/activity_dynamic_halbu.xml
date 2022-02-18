@@ -184,10 +184,10 @@
             android:textColor="@color/white"
             />
         <Button
+            android:id="@+id/button1"
             android:text="확인"
             android:onClick="clickPad"
             android:layout_width="70dp"
-
             android:textSize="30dp"
             android:background="@color/primary"
             android:textColor="@color/white"

@@ -98,12 +98,16 @@ public class DynamicHalbuActivity extends AppCompatActivity {
     private String phone;
     private String address;
 
+    private Button button1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dynamic_halbu);
 
+
+        button1 = (Button)findViewById(R.id.button1);
         // 상단 앱바 가리기
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -156,6 +160,7 @@ public class DynamicHalbuActivity extends AppCompatActivity {
 
 
         }else if(targetText.equals("확인")){
+            button1.setEnabled(false);
             //확인을 누를 경우
             if(install_period.length()>0){
                 //TODO: 통신 후 프린트
@@ -339,11 +344,11 @@ public class DynamicHalbuActivity extends AppCompatActivity {
             receipt.addText(ExFormat.format("%-15s%13s원\n", "쿠 폰 금 액 :", res_tot_amt));
             receipt.addText(ExFormat.format("%-15s%15s\n", "쿠 폰 번 호  :", res_coupon_no));
             receipt.addTextLine("------------------------------");
-            receipt.addText("http://m.happycoupon.co.kr\n");
-            receipt.addText("에서 사용하신 쿠폰번호로 \n");
-            receipt.addText("해피캐시를 적립하신 후\n");
+//            receipt.addText("http://m.happycoupon.co.kr\n");
+            receipt.addText("사용하신 쿠폰번호로 \n");
+//            receipt.addText("해피캐시를 적립하신 후\n");
             receipt.addText("리커버샵(www.recovershop.co.kr\n");
-            receipt.addText("에서 편리하게 사용하세요\n");
+            receipt.addText("에서 포인트 등록 후 편리하게 사용하세요\n");
             receipt.addText("(서명/SIGNATURE)\n");
 
         } catch (ReceiptPrint.BitmapOutOfRangeException e) {

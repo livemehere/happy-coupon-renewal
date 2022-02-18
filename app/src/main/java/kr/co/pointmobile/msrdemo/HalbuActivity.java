@@ -97,6 +97,13 @@ public class HalbuActivity extends AppCompatActivity {
     private String ceoname;
     private String phone;
     private String address;
+    private Button button1;
+    private Button button2;
+    private Button button3;
+    private Button button4;
+    private Button button5;
+    private Button button6;
+    private Button button7;
 
 
     @Override
@@ -104,6 +111,14 @@ public class HalbuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_halbu);
 
+
+        button1 = (Button) findViewById(R.id.button1);
+        button2 = (Button) findViewById(R.id.button2);
+        button3 = (Button) findViewById(R.id.button3);
+        button4 = (Button) findViewById(R.id.button4);
+        button5 = (Button) findViewById(R.id.button5);
+        button6 = (Button) findViewById(R.id.button6);
+        button7 = (Button) findViewById(R.id.button7);
         // 상단 앱바 가리기
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -158,6 +173,14 @@ public class HalbuActivity extends AppCompatActivity {
             intent.putExtra("tot_amt",tot_amt);
             startActivity(intent);
         }
+        button1.setEnabled(false);
+        button2.setEnabled(false);
+        button3.setEnabled(false);
+        button4.setEnabled(false);
+        button5.setEnabled(false);
+        button6.setEnabled(false);
+        button7.setEnabled(false);
+
         if(!isDirect){
             RetrofitService networkService = RetrofitFactory.create();
             networkService.authCard(serial,card_no,expire_date,install_period,tot_amt).enqueue(new Callback<CardAuthResult>() {
@@ -218,7 +241,12 @@ public class HalbuActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), response.body().result_msg, Toast.LENGTH_SHORT).show();
                         }
 
-                    }}
+                    }
+                    //TODO: 홈으로 보내기
+//                    Intent intent = new Intent(v.getContext(),MainActivity.class);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    startActivity(intent);
+                }
 
                 @Override
                 public void onFailure(Call<CardAuthResult> call, Throwable t) {
@@ -285,11 +313,11 @@ public class HalbuActivity extends AppCompatActivity {
             receipt.addText(ExFormat.format("%-15s%13s원\n", "쿠 폰 금 액 :", res_tot_amt));
             receipt.addText(ExFormat.format("%-15s%15s\n", "쿠 폰 번 호  :", res_coupon_no));
             receipt.addTextLine("------------------------------");
-            receipt.addText("http://m.happycoupon.co.kr\n");
-            receipt.addText("에서 사용하신 쿠폰번호로 \n");
-            receipt.addText("해피캐시를 적립하신 후\n");
+//            receipt.addText("http://m.happycoupon.co.kr\n");
+            receipt.addText("사용하신 쿠폰번호로 \n");
+//            receipt.addText("해피캐시를 적립하신 후\n");
             receipt.addText("리커버샵(www.recovershop.co.kr\n");
-            receipt.addText("에서 편리하게 사용하세요\n");
+            receipt.addText("에서 포인트 등록 후 편리하게 사용하세요\n");
             receipt.addText("(서명/SIGNATURE)\n");
 
         } catch (ReceiptPrint.BitmapOutOfRangeException e) {

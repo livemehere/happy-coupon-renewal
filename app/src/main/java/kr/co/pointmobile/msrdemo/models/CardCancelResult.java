@@ -20,4 +20,7 @@ public class CardCancelResult {
     public String parentid;
     public String origindate;
     public String origintime;
+    public String auth_no;
+    public String install_period;
+    public String iss_nm;
 }
