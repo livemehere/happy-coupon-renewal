@@ -55,12 +55,12 @@ public class MargetInfoActivity extends AppCompatActivity {
                         get_store_phone.setText(response.body().phone);
                         get_store_address.setText(response.body().address);
 
-                        Log.d("data1",response.body().result_cd);
-                        Log.d("data1",response.body().name);
-                        Log.d("data1",response.body().companyid);
-                        Log.d("data1",response.body().ceoname);
-                        Log.d("data1",response.body().phone);
-                        Log.d("data1",response.body().address);
+//                        Log.d("data1",response.body().result_cd);
+//                        Log.d("data1",response.body().name);
+//                        Log.d("data1",response.body().companyid);
+//                        Log.d("data1",response.body().ceoname);
+//                        Log.d("data1",response.body().phone);
+//                        Log.d("data1",response.body().address);
 
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("name",response.body().name);
