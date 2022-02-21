@@ -20,7 +20,3 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 # Platform calls Class.forName on types which do not exist on Android to determine platform.
-
--keep class kr.co.pointmobile.msrdemo.BaseApplication {
-*;
-}
