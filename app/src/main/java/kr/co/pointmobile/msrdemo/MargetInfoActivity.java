@@ -22,7 +22,7 @@ import retrofit2.Response;
 
 public class MargetInfoActivity extends AppCompatActivity {
 //    public static String serial = android.os.Build.SERIAL;
-    public static String serial = "12123123123";
+    public static String serial = android.os.Build.SERIAL;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
