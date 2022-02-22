@@ -1,5 +1,7 @@
 package kr.co.pointmobile.msrdemo.models;
+import androidx.annotation.Keep;
 
+@Keep
 public class CardCancelResult {
     public String transeq;
     public String result_cd;

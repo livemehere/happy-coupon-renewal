@@ -82,7 +82,7 @@ public class UseHappyCouponActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), response.body().result_msg, Toast.LENGTH_SHORT).show();
                                 finish();
                             }else{
-                                Log.d("쿠폰사용결과",response.body().result_cd);
+                                Log.d("쿠폰사용결과",response.headers().toString());
                                 Toast.makeText(getApplicationContext(), response.body().result_msg, Toast.LENGTH_SHORT).show();
                             }
                         }

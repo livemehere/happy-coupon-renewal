@@ -1,5 +1,9 @@
 package kr.co.pointmobile.msrdemo.models;
 
+
+import androidx.annotation.Keep;
+
+@Keep
 public class CardAuthResult {
     public String serial;
     public String card_no;

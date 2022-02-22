@@ -37,5 +37,4 @@ public interface RetrofitService {
     @GET("/libs/client/agent.search.php")
     Call<Marget> getMargetInfo(@Query("serial") String serial);
 
-
 }
