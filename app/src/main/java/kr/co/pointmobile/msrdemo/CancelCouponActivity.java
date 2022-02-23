@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CancelCouponActivity extends AppCompatActivity {
-    public static String serial = android.os.Build.SERIAL;
+//    public static String serial = android.os.Build.SERIAL;
     public TextView get_coupon_no;
     public String coupon_no;
     @Override
@@ -63,6 +65,8 @@ public class CancelCouponActivity extends AppCompatActivity {
                 // 취소 요청 및 프린트
                 // TODO: 2. http 요청하기 (쿠폰취소)
                 // FIXME: 여기다가 serial 넣고, 쿠폰번호가져와서 넣으세요
+                String serial = Settings.Secure.getString(getApplicationContext().getContentResolver(),Settings.Secure.ANDROID_ID);
+                Log.d("시리얼!!!", serial);
                 RetrofitService networkService = RetrofitFactory.create();
                 networkService.cancelCoupon(serial, coupon_no).enqueue(new Callback<Coupon>() {
                     @Override

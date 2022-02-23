@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.CallLog;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -22,7 +23,7 @@ import retrofit2.Response;
 
 public class MargetInfoActivity extends AppCompatActivity {
 //    public static String serial = android.os.Build.SERIAL;
-    public static String serial = android.os.Build.SERIAL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +37,8 @@ public class MargetInfoActivity extends AppCompatActivity {
         }
         try {
             RetrofitService networkService = RetrofitFactory.create();
+            String serial = Settings.Secure.getString(getApplicationContext().getContentResolver(),Settings.Secure.ANDROID_ID);
+            Log.d("시리얼!!!", serial);
             networkService.getMargetInfo(serial).enqueue(new Callback<Marget>() {
                 @Override
                 public void onResponse(Call<Marget> call, Response<Marget> response) {

@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -34,7 +35,7 @@ import static device.sdk.print.ReceiptPrint.PRESET_W30H100;
 import static device.sdk.print.ReceiptPrint.PRESET_W40H100;
 
 public class CancelCardActivity extends AppCompatActivity {
-    public static String serial = android.os.Build.SERIAL;
+//    public static String serial = android.os.Build.SERIAL;
 
     //TODO: print
     private ReceiptPrint receipt2;
@@ -204,6 +205,7 @@ public class CancelCardActivity extends AppCompatActivity {
                 // TODO: 2. http 요청하기 (쿠폰취소)
                 // FIXME: 여기다가 serial 넣고, 쿠폰번호가져와서 넣으세요
                 RetrofitService networkService = RetrofitFactory.create();
+                String serial = Settings.Secure.getString(getApplicationContext().getContentResolver(),Settings.Secure.ANDROID_ID);
                 networkService.cancelCard(serial,coupon_no).enqueue(new Callback<CardCancelResult>() {
                     @Override
                     public void onResponse(Call<CardCancelResult> call, Response<CardCancelResult> response) {

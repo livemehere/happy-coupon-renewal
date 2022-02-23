@@ -1,6 +1,7 @@
 package kr.co.pointmobile.msrdemo;
 
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +20,8 @@ import retrofit2.Response;
 
 public class UseHappyCouponActivity extends AppCompatActivity {
 
-    public static String serial = android.os.Build.SERIAL;
+    public static String serial;
+
     public String coupon_no;
     private TextView get_coupon_no;
 
@@ -71,6 +73,8 @@ public class UseHappyCouponActivity extends AppCompatActivity {
                 // 취소 요청 및 프린트
                 // TODO: 2. http 요청하기 (쿠폰사용)
                 // FIXME: 여기다가 serial 넣고, 쿠폰번호가져와서 넣으세요
+                serial = Settings.Secure.getString(getApplicationContext().getContentResolver(),Settings.Secure.ANDROID_ID);
+                Log.d("시리얼!!!", serial);
                 RetrofitService networkService = RetrofitFactory.create();
                 networkService.useCoupon(serial,coupon_no).enqueue(new Callback<Coupon>() {
                     @Override

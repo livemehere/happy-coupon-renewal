@@ -23,7 +23,7 @@ public class registActivity extends AppCompatActivity {
     private EditText store_password;
     private EditText store_password_check;
 
-    public static String serial = android.os.Build.SERIAL;
+    public static String serial;
     private String business_number;
     private String eEB;
     private String password;
@@ -38,7 +38,8 @@ public class registActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regist);
-
+        serial = Settings.Secure.getString(getApplicationContext().getContentResolver(),Settings.Secure.ANDROID_ID);
+        Log.d("시리얼!!!", serial);
         // 상단 앱바 가리기
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();

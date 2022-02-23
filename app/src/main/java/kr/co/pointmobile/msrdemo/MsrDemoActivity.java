@@ -17,6 +17,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -96,7 +97,7 @@ public class MsrDemoActivity extends AppCompatActivity
     public String mTrack2View; //채번된 카드번호
     public String card_no;
     public String expire_date; // 유효기간
-    public static String serial = android.os.Build.SERIAL;
+    public static String serial;
     public String install_period; //할부
     public String tot_amt; //금액
 
@@ -214,6 +215,8 @@ public class MsrDemoActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+            serial = Settings.Secure.getString(getApplicationContext().getContentResolver(),Settings.Secure.ANDROID_ID);
+            Log.d("시리얼!!!", serial);
 
             mClient = MessengerClient.getInstance(getApplicationContext());
             mClient.init();
